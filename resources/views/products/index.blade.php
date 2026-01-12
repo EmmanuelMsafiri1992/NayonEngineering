@@ -155,7 +155,7 @@
                         <!-- Pagination -->
                         @if($products->hasPages())
                             <div class="pagination">
-                                {{ $products->links() }}
+                                {{ $products->withQueryString()->links() }}
                             </div>
                         @endif
                     @endif
