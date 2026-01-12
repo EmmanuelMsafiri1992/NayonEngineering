@@ -46,8 +46,7 @@
             <!-- Logo -->
             <div class="logo">
                 <a href="{{ route('home') }}">
-                    <img src="{{ asset('images/logo.svg') }}" alt="Nayon Engineering" class="logo-img">
-                    <span class="logo-text-mobile">Nayon <span>Engineering</span></span>
+                    <img src="{{ asset('images/nayon-logo.png') }}" alt="Nayon Engineering" class="logo-img">
                 </a>
             </div>
 
