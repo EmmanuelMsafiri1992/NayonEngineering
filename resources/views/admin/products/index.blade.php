@@ -104,9 +104,7 @@
                     </table>
                 </div>
 
-                <div class="pagination">
-                    {{ $products->links() }}
-                </div>
+                {{ $products->links('admin.partials.pagination') }}
             @endif
         </div>
     </div>

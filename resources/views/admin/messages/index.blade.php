@@ -91,9 +91,7 @@
                     </table>
                 </div>
 
-                <div class="pagination">
-                    {{ $messages->links() }}
-                </div>
+                {{ $messages->links('admin.partials.pagination') }}
             @endif
         </div>
     </div>

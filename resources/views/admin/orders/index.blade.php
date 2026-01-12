@@ -62,9 +62,7 @@
                     </table>
                 </div>
 
-                <div class="pagination">
-                    {{ $orders->links() }}
-                </div>
+                {{ $orders->links('admin.partials.pagination') }}
             @endif
         </div>
     </div>
