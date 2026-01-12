@@ -3,12 +3,21 @@
 @section('title', 'Settings')
 
 @section('content')
-    <div class="settings-nav" style="display: flex; gap: 15px; margin-bottom: 25px;">
+    <div class="settings-nav" style="display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap;">
         <a href="{{ route('admin.settings.index') }}" class="btn btn-primary">
-            <i class="fas fa-cog"></i> General Settings
+            <i class="fas fa-cog"></i> General
+        </a>
+        <a href="{{ route('admin.settings.seo') }}" class="btn btn-outline">
+            <i class="fas fa-search"></i> SEO
+        </a>
+        <a href="{{ route('admin.settings.appearance') }}" class="btn btn-outline">
+            <i class="fas fa-palette"></i> Appearance
+        </a>
+        <a href="{{ route('admin.settings.content') }}" class="btn btn-outline">
+            <i class="fas fa-edit"></i> Content
         </a>
         <a href="{{ route('admin.settings.payment') }}" class="btn btn-outline">
-            <i class="fas fa-credit-card"></i> Payment Settings
+            <i class="fas fa-credit-card"></i> Payment
         </a>
     </div>
 

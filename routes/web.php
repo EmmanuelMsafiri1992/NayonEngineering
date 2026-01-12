@@ -106,6 +106,17 @@ Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function ()
     // Settings
     Route::get('settings', [AdminSettingController::class, 'index'])->name('settings.index');
     Route::post('settings', [AdminSettingController::class, 'update'])->name('settings.update');
+
+    Route::get('settings/seo', [AdminSettingController::class, 'seo'])->name('settings.seo');
+    Route::post('settings/seo', [AdminSettingController::class, 'updateSeo'])->name('settings.seo.update');
+
+    Route::get('settings/appearance', [AdminSettingController::class, 'appearance'])->name('settings.appearance');
+    Route::post('settings/appearance', [AdminSettingController::class, 'updateAppearance'])->name('settings.appearance.update');
+
+    Route::get('settings/content', [AdminSettingController::class, 'content'])->name('settings.content');
+    Route::post('settings/content', [AdminSettingController::class, 'updateContent'])->name('settings.content.update');
+
     Route::get('settings/payment', [AdminSettingController::class, 'payment'])->name('settings.payment');
     Route::post('settings/payment', [AdminSettingController::class, 'updatePayment'])->name('settings.payment.update');
+    Route::post('settings/currency/refresh', [AdminSettingController::class, 'refreshCurrency'])->name('settings.currency.refresh');
 });

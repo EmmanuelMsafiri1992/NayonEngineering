@@ -3,10 +3,21 @@
 @section('title', 'Payment Settings')
 
 @section('content')
-    <div class="page-header">
-        <h1>Payment Settings</h1>
+    <div class="settings-nav" style="display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap;">
         <a href="{{ route('admin.settings.index') }}" class="btn btn-outline">
-            <i class="fas fa-arrow-left"></i> Back to Settings
+            <i class="fas fa-cog"></i> General
+        </a>
+        <a href="{{ route('admin.settings.seo') }}" class="btn btn-outline">
+            <i class="fas fa-search"></i> SEO
+        </a>
+        <a href="{{ route('admin.settings.appearance') }}" class="btn btn-outline">
+            <i class="fas fa-palette"></i> Appearance
+        </a>
+        <a href="{{ route('admin.settings.content') }}" class="btn btn-outline">
+            <i class="fas fa-edit"></i> Content
+        </a>
+        <a href="{{ route('admin.settings.payment') }}" class="btn btn-primary">
+            <i class="fas fa-credit-card"></i> Payment
         </a>
     </div>
 
@@ -74,14 +85,44 @@
             </div>
             <div class="card-body">
                 <div class="form-group">
-                    <label for="mzn_exchange_rate">MZN Exchange Rate (1 ZAR = X MZN)</label>
-                    <input type="number" id="mzn_exchange_rate" name="mzn_exchange_rate"
-                           value="{{ $settings['mzn_exchange_rate'] ?? '3.50' }}"
-                           step="0.01" min="0.01">
+                    <label class="toggle-label">
+                        <input type="checkbox" name="currency_auto_update" value="1" id="currency_auto_toggle"
+                               {{ ($settings['currency_auto_update'] ?? true) ? 'checked' : '' }}>
+                        <span class="toggle-switch"></span>
+                        <span class="toggle-text">Auto-Update Exchange Rate</span>
+                    </label>
                     <p class="form-help">
-                        The exchange rate for converting ZAR to Mozambican Metical (MZN).
-                        Customers in Mozambique will see prices in MZN based on this rate.
+                        When enabled, exchange rates are automatically fetched from free currency APIs every 6 hours.
+                        Disable to use a manual rate.
                     </p>
+                </div>
+
+                <div class="auto-rate-info" id="autoRateInfo" style="{{ ($settings['currency_auto_update'] ?? true) ? '' : 'display: none;' }}">
+                    <div class="info-box success">
+                        <i class="fas fa-sync-alt"></i>
+                        <div>
+                            <strong>Auto Currency Conversion Active</strong>
+                            <p>
+                                Current live rate: <strong>1 ZAR = {{ number_format($settings['mzn_exchange_rate'] ?? 3.5, 4) }} MZN</strong><br>
+                                <small>Rates are cached for 6 hours and fetched from open.er-api.com</small>
+                            </p>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="refreshRate()" id="refreshBtn">
+                                <i class="fas fa-sync"></i> Refresh Rate Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="manual-rate-section" id="manualRateSection" style="{{ ($settings['currency_auto_update'] ?? true) ? 'display: none;' : '' }}">
+                    <div class="form-group">
+                        <label for="mzn_exchange_rate">Manual MZN Exchange Rate (1 ZAR = X MZN)</label>
+                        <input type="number" id="mzn_exchange_rate" name="mzn_exchange_rate"
+                               value="{{ $settings['mzn_exchange_rate'] ?? '3.50' }}"
+                               step="0.0001" min="0.01">
+                        <p class="form-help">
+                            Enter the exchange rate manually. This rate will be used for all conversions.
+                        </p>
+                    </div>
                 </div>
 
                 <div class="currency-preview">
@@ -90,6 +131,17 @@
                         <strong>R 100.00</strong> (ZAR) =
                         <strong>MT <span id="mzn-preview">{{ number_format(100 * ($settings['mzn_exchange_rate'] ?? 3.5), 2) }}</span></strong> (MZN)
                     </p>
+                </div>
+
+                <div class="info-box" style="margin-top: 20px;">
+                    <i class="fas fa-globe"></i>
+                    <div>
+                        <strong>Geo-Location Based Currency</strong>
+                        <p>
+                            Customers from South Africa automatically see prices in ZAR.<br>
+                            Customers from Mozambique automatically see prices in MZN (converted using the exchange rate above).
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -288,6 +340,15 @@
             color: var(--primary);
         }
 
+        .info-box.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+
+        .info-box.success i {
+            color: #28a745;
+        }
+
         .currency-preview {
             background: #f8f9fa;
             padding: 15px;
@@ -329,11 +390,67 @@
 
     <script>
         // Update MZN preview
-        document.getElementById('mzn_exchange_rate').addEventListener('input', function() {
+        document.getElementById('mzn_exchange_rate')?.addEventListener('input', function() {
             const rate = parseFloat(this.value) || 0;
             const mznValue = (100 * rate).toFixed(2);
             document.getElementById('mzn-preview').textContent = mznValue;
         });
+
+        // Toggle auto/manual rate sections
+        document.getElementById('currency_auto_toggle')?.addEventListener('change', function() {
+            const autoInfo = document.getElementById('autoRateInfo');
+            const manualSection = document.getElementById('manualRateSection');
+
+            if (this.checked) {
+                autoInfo.style.display = '';
+                manualSection.style.display = 'none';
+            } else {
+                autoInfo.style.display = 'none';
+                manualSection.style.display = '';
+            }
+        });
+
+        // Refresh exchange rate from API
+        function refreshRate() {
+            const btn = document.getElementById('refreshBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+            btn.disabled = true;
+
+            fetch('{{ route("admin.settings.currency.refresh") }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const rate = data.rate;
+                    document.getElementById('mzn-preview').textContent = (100 * rate).toFixed(2);
+
+                    // Update the info text
+                    const infoBox = document.querySelector('.auto-rate-info .info-box p');
+                    if (infoBox) {
+                        infoBox.innerHTML = `Current live rate: <strong>1 ZAR = ${rate.toFixed(4)} MZN</strong><br><small>Rates are cached for 6 hours and fetched from open.er-api.com</small>`;
+                    }
+
+                    alert('Exchange rate refreshed! New rate: 1 ZAR = ' + rate.toFixed(4) + ' MZN');
+                } else {
+                    alert('Failed to refresh rate: ' + (data.message || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to refresh exchange rate. Please try again.');
+            })
+            .finally(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
 
         function copyWebhookUrl() {
             const input = document.getElementById('webhook-url');
