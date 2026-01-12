@@ -34,7 +34,7 @@
             </div>
             <div class="top-bar-right">
                 <a href="{{ route('account') }}">My Account</a>
-                <a href="#">Track Order</a>
+                <a href="{{ route('track-order') }}">Track Order</a>
                 <a href="{{ route('contact') }}">Contact Us</a>
             </div>
         </div>
@@ -178,8 +178,8 @@
                         <li><a href="{{ route('products.index') }}">Our Products</a></li>
                         <li><a href="{{ route('services') }}">Services</a></li>
                         <li><a href="{{ route('contact') }}">Contact Us</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">FAQs</a></li>
+                        <li><a href="{{ route('careers') }}">Careers</a></li>
+                        <li><a href="{{ route('faqs') }}">FAQs</a></li>
                     </ul>
                 </div>
 
@@ -222,8 +222,8 @@
         <div class="footer-bottom">
             <div class="container">
                 <p>&copy; {{ date('Y') }} Nayon Engineering. All Rights Reserved. |
-                    <a href="#">Privacy Policy</a> |
-                    <a href="#">Terms & Conditions</a>
+                    <a href="{{ route('privacy') }}">Privacy Policy</a> |
+                    <a href="{{ route('terms') }}">Terms & Conditions</a>
                 </p>
             </div>
         </div>

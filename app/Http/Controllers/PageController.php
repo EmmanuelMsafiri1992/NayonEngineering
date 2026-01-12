@@ -46,4 +46,29 @@ class PageController extends Controller
     {
         return view('pages.checkout');
     }
+
+    public function privacy(): View
+    {
+        return view('pages.privacy');
+    }
+
+    public function terms(): View
+    {
+        return view('pages.terms');
+    }
+
+    public function faqs(): View
+    {
+        return view('pages.faqs');
+    }
+
+    public function careers(): View
+    {
+        return view('pages.careers');
+    }
+
+    public function trackOrder(): View
+    {
+        return view('pages.track-order');
+    }
 }

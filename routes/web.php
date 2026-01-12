@@ -41,6 +41,11 @@ Route::post('/contact', [PageController::class, 'contactSubmit'])->name('contact
 Route::get('/services', [PageController::class, 'services'])->name('services');
 Route::get('/account', [PageController::class, 'account'])->name('account');
 Route::get('/checkout', [PageController::class, 'checkout'])->name('checkout');
+Route::get('/privacy-policy', [PageController::class, 'privacy'])->name('privacy');
+Route::get('/terms-and-conditions', [PageController::class, 'terms'])->name('terms');
+Route::get('/faqs', [PageController::class, 'faqs'])->name('faqs');
+Route::get('/careers', [PageController::class, 'careers'])->name('careers');
+Route::get('/track-order', [PageController::class, 'trackOrder'])->name('track-order');
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login'])->name('login');
