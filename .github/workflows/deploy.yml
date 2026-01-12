@@ -1,0 +1,60 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            REPOPATH=/home/indegnnk/NayonEngineeringRepo
+            DEPLOYPATH=/home/indegnnk/muchanda.com
+
+            # Fix git safe directory issue
+            git config --global --add safe.directory $REPOPATH
+
+            # Ensure repo exists, clone if not
+            if [ ! -d "$REPOPATH/.git" ]; then
+              echo "Cloning repository..."
+              rm -rf $REPOPATH
+              git clone https://github.com/EmmanuelMsafiri1992/NayonEngineering.git $REPOPATH
+            fi
+
+            cd $REPOPATH
+            git fetch origin
+            git reset --hard origin/main
+
+            # Sync files WITHOUT --delete to prevent accidental file removal
+            /bin/rsync -av \
+              --exclude='.git' \
+              --exclude='.env' \
+              --exclude='.htaccess' \
+              --exclude='public/.htaccess' \
+              --exclude='vendor' \
+              --exclude='storage' \
+              --exclude='public/storage' \
+              --exclude='node_modules' \
+              $REPOPATH/ $DEPLOYPATH/
+
+            chmod 755 $DEPLOYPATH
+            chmod -R 775 $DEPLOYPATH/storage $DEPLOYPATH/bootstrap/cache
+            chown -R indegnnk:indegnnk $DEPLOYPATH
+
+            cd $DEPLOYPATH
+            php artisan storage:link 2>/dev/null || true
+            composer install --no-dev --optimize-autoloader --no-interaction
+            php artisan migrate --force
+            php artisan optimize:clear
+            php artisan view:cache
+
+            echo "Deployment completed: $(date)"
