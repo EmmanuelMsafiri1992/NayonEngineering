@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create test user only if it doesn't exist
-        if (!User::where('email', 'test@example.com')->exists()) {
-            User::factory()->create([
-                'name' => 'Test User',
-                'email' => 'test@example.com',
+        // Create admin user only if it doesn't exist (without factory for production)
+        if (!User::where('email', 'admin@nayon.co.tz')->exists()) {
+            User::create([
+                'name' => 'Admin',
+                'email' => 'admin@nayon.co.tz',
+                'password' => Hash::make('password123'),
             ]);
         }
 
