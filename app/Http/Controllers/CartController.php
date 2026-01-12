@@ -45,7 +45,20 @@ class CartController extends Controller
         $quantity = $request->get('quantity', 1);
         $product = Product::findOrFail($productId);
 
+        // Check stock availability
         $cart = session()->get('cart', []);
+        $currentQty = isset($cart[$productId]) ? $cart[$productId]['quantity'] : 0;
+        $requestedTotal = $currentQty + $quantity;
+
+        if ($product->stock < $requestedTotal) {
+            return response()->json([
+                'success' => false,
+                'message' => $product->stock <= 0
+                    ? 'This product is out of stock'
+                    : "Only {$product->stock} items available in stock",
+                'cartCount' => $this->getCartCount(),
+            ], 422);
+        }
 
         if (isset($cart[$productId])) {
             $cart[$productId]['quantity'] += $quantity;
@@ -93,6 +106,10 @@ class CartController extends Controller
 
     public function remove(Request $request): JsonResponse
     {
+        $request->validate([
+            'product_id' => 'required|integer',
+        ]);
+
         $productId = $request->product_id;
         $cart = session()->get('cart', []);
 

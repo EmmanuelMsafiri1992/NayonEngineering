@@ -85,7 +85,7 @@
                         <span>Total</span>
                         <span>R {{ number_format($total, 2) }}</span>
                     </div>
-                    <a href="#" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                    <a href="{{ route('checkout') }}" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
                         Proceed to Checkout
                     </a>
                     <a href="{{ route('products.index') }}" class="btn btn-outline" style="width: 100%; margin-top: 10px;">

@@ -1,6 +1,6 @@
 <div class="product-card">
     <div class="product-image">
-        @if(isset($showBadge) && $showBadge && $product->discount > 50)
+        @if(isset($showBadge) && $showBadge)
             <span class="product-badge badge-sale">-{{ $product->discount }}%</span>
         @elseif(isset($isNew) && $isNew)
             <span class="product-badge badge-new">New</span>

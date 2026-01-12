@@ -44,21 +44,21 @@
                         @csrf
                         <div style="margin-bottom: 20px;">
                             <label style="display: block; margin-bottom: 8px; font-weight: 500;">Full Name *</label>
-                            <input type="text" name="name" value="{{ old('name') }}" required style="width: 100%; padding: 12px 15px; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 4px; color: var(--white); font-size: 14px;">
+                            <input type="text" name="name" value="{{ old('name') }}" required style="width: 100%; padding: 12px 15px; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-light); font-size: 14px;">
                         </div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
                             <div>
                                 <label style="display: block; margin-bottom: 8px; font-weight: 500;">Email Address *</label>
-                                <input type="email" name="email" value="{{ old('email') }}" required style="width: 100%; padding: 12px 15px; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 4px; color: var(--white); font-size: 14px;">
+                                <input type="email" name="email" value="{{ old('email') }}" required style="width: 100%; padding: 12px 15px; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-light); font-size: 14px;">
                             </div>
                             <div>
                                 <label style="display: block; margin-bottom: 8px; font-weight: 500;">Phone Number</label>
-                                <input type="tel" name="phone" value="{{ old('phone') }}" style="width: 100%; padding: 12px 15px; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 4px; color: var(--white); font-size: 14px;">
+                                <input type="tel" name="phone" value="{{ old('phone') }}" style="width: 100%; padding: 12px 15px; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-light); font-size: 14px;">
                             </div>
                         </div>
                         <div style="margin-bottom: 20px;">
                             <label style="display: block; margin-bottom: 8px; font-weight: 500;">Subject *</label>
-                            <select name="subject" required style="width: 100%; padding: 12px 15px; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 4px; color: var(--white); font-size: 14px;">
+                            <select name="subject" required style="width: 100%; padding: 12px 15px; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-light); font-size: 14px;">
                                 <option value="General Inquiry">General Inquiry</option>
                                 <option value="Product Question">Product Question</option>
                                 <option value="Quote Request">Quote Request</option>
@@ -69,7 +69,7 @@
                         </div>
                         <div style="margin-bottom: 20px;">
                             <label style="display: block; margin-bottom: 8px; font-weight: 500;">Message *</label>
-                            <textarea name="message" rows="6" required style="width: 100%; padding: 12px 15px; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 4px; color: var(--white); font-size: 14px; resize: vertical;">{{ old('message') }}</textarea>
+                            <textarea name="message" rows="6" required style="width: 100%; padding: 12px 15px; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-light); font-size: 14px; resize: vertical;">{{ old('message') }}</textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-paper-plane"></i> Send Message

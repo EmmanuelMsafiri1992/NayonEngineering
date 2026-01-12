@@ -41,4 +41,9 @@ class PageController extends Controller
     {
         return view('pages.account');
     }
+
+    public function checkout(): View
+    {
+        return view('pages.checkout');
+    }
 }

@@ -46,6 +46,10 @@ class WishlistController extends Controller
 
     public function remove(Request $request): JsonResponse
     {
+        $request->validate([
+            'product_id' => 'required|integer',
+        ]);
+
         $productId = $request->product_id;
         $wishlist = session()->get('wishlist', []);
 
@@ -88,6 +92,10 @@ class WishlistController extends Controller
 
     public function moveToCart(Request $request): JsonResponse
     {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+        ]);
+
         $productId = $request->product_id;
 
         // Add to cart
