@@ -81,11 +81,16 @@ jobs:
             # Seed the database (only adds data if tables are empty)
             php artisan db:seed --force
 
+            # Delete compiled views manually (force clear)
+            rm -rf $DEPLOYPATH/storage/framework/views/*
+            rm -rf $DEPLOYPATH/bootstrap/cache/*.php
+
             # Clear all caches
             php artisan config:clear
             php artisan route:clear
             php artisan view:clear
             php artisan cache:clear
+            php artisan optimize:clear
 
             # Rebuild caches
             php artisan config:cache
