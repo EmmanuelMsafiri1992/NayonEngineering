@@ -11,6 +11,11 @@ class ProductSeeder extends Seeder
 {
     public function run(): void
     {
+        // Skip if already seeded
+        if (Category::count() > 0 || Product::count() > 0) {
+            return;
+        }
+
         // Categories
         $categories = [
             ['id' => 1, 'name' => 'Audio & Visual Alarms', 'subcategories' => ['Beacons', 'Combination Sounder/Beacon', 'Fire Detection', 'Signal Towers', 'Sounders', 'Speakers & PA Systems', 'Traffic Lights'], 'icon' => 'fas fa-bell'],
