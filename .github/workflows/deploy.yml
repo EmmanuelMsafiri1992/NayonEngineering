@@ -34,8 +34,11 @@ jobs:
             git fetch origin
             git reset --hard origin/main
 
+            # Ensure deploy directory exists
+            mkdir -p $DEPLOYPATH
+
             # Sync files WITHOUT --delete to prevent accidental file removal
-            /bin/rsync -av \
+            rsync -av \
               --exclude='.git' \
               --exclude='.env' \
               --exclude='.htaccess' \
@@ -47,6 +50,9 @@ jobs:
               $REPOPATH/ $DEPLOYPATH/
 
             chmod 755 $DEPLOYPATH
+            mkdir -p $DEPLOYPATH/storage/framework/{sessions,views,cache}
+            mkdir -p $DEPLOYPATH/storage/logs
+            mkdir -p $DEPLOYPATH/bootstrap/cache
             chmod -R 775 $DEPLOYPATH/storage $DEPLOYPATH/bootstrap/cache
             chown -R indegnnk:indegnnk $DEPLOYPATH
 
