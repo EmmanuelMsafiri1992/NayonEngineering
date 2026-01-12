@@ -17,38 +17,41 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
+            set -e
             REPOPATH=/home/indegnnk/NayonEngineeringRepo
             DEPLOYPATH=/home/indegnnk/muchanda.com
+
+            echo "=== Starting Deployment ==="
+            echo "Repo Path: $REPOPATH"
+            echo "Deploy Path: $DEPLOYPATH"
 
             # Fix git safe directory issue
             git config --global --add safe.directory $REPOPATH
 
-            # Ensure repo exists, clone if not
-            if [ ! -d "$REPOPATH/.git" ]; then
-              echo "Cloning repository..."
-              rm -rf $REPOPATH
-              git clone https://github.com/EmmanuelMsafiri1992/NayonEngineering.git $REPOPATH
-            fi
+            # Remove and re-clone to ensure fresh copy
+            echo "=== Cloning Repository ==="
+            rm -rf $REPOPATH
+            git clone --depth 1 https://github.com/EmmanuelMsafiri1992/NayonEngineering.git $REPOPATH
 
-            cd $REPOPATH
-            git fetch origin
-            git reset --hard origin/main
+            echo "=== Repository Contents ==="
+            ls -la $REPOPATH
 
             # Ensure deploy directory exists
             mkdir -p $DEPLOYPATH
 
-            # Sync files WITHOUT --delete to prevent accidental file removal
-            rsync -av \
+            # Sync ALL files to deploy path
+            echo "=== Syncing Files ==="
+            rsync -avz --progress \
               --exclude='.git' \
               --exclude='.env' \
-              --exclude='.htaccess' \
-              --exclude='public/.htaccess' \
               --exclude='vendor' \
-              --exclude='storage' \
-              --exclude='public/storage' \
               --exclude='node_modules' \
               $REPOPATH/ $DEPLOYPATH/
 
+            echo "=== Deploy Directory Contents ==="
+            ls -la $DEPLOYPATH
+
+            # Set permissions
             chmod 755 $DEPLOYPATH
             mkdir -p $DEPLOYPATH/storage/framework/{sessions,views,cache}
             mkdir -p $DEPLOYPATH/storage/logs
@@ -56,11 +59,25 @@ jobs:
             chmod -R 775 $DEPLOYPATH/storage $DEPLOYPATH/bootstrap/cache
             chown -R indegnnk:indegnnk $DEPLOYPATH
 
+            # Create .env if not exists
+            if [ ! -f "$DEPLOYPATH/.env" ]; then
+              cp $DEPLOYPATH/.env.example $DEPLOYPATH/.env
+              echo "Created .env from .env.example"
+            fi
+
             cd $DEPLOYPATH
-            php artisan storage:link 2>/dev/null || true
+
+            # Install composer dependencies
+            echo "=== Installing Composer Dependencies ==="
             composer install --no-dev --optimize-autoloader --no-interaction
+
+            # Generate app key if not set
+            php artisan key:generate --force 2>/dev/null || true
+
+            # Run Laravel commands
+            php artisan storage:link 2>/dev/null || true
             php artisan migrate --force
             php artisan optimize:clear
             php artisan view:cache
 
-            echo "Deployment completed: $(date)"
+            echo "=== Deployment Completed: $(date) ==="
