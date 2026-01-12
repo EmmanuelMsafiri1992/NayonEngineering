@@ -33,9 +33,10 @@
                 <span><i class="fas fa-envelope"></i> info@nayon-engineering.co.za</span>
             </div>
             <div class="top-bar-right">
-                <a href="{{ route('account') }}">My Account</a>
-                <a href="{{ route('track-order') }}">Track Order</a>
-                <a href="{{ route('contact') }}">Contact Us</a>
+                @include('partials.language-switcher')
+                <a href="{{ route('account') }}">{{ __('messages.account') }}</a>
+                <a href="{{ route('track-order') }}">{{ __('messages.track_order') }}</a>
+                <a href="{{ route('contact') }}">{{ __('messages.contact') }}</a>
             </div>
         </div>
     </div>

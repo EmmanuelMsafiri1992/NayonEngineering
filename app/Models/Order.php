@@ -27,6 +27,13 @@ class Order extends Model
         'total',
         'status',
         'notes',
+        'payment_reference',
+        'payment_status',
+        'payment_method',
+        'currency',
+        'exchange_rate',
+        'locale',
+        'paid_at',
     ];
 
     protected function casts(): array
@@ -36,6 +43,8 @@ class Order extends Model
             'subtotal' => 'decimal:2',
             'vat' => 'decimal:2',
             'total' => 'decimal:2',
+            'exchange_rate' => 'decimal:4',
+            'paid_at' => 'datetime',
         ];
     }
 

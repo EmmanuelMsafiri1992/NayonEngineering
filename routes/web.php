@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
@@ -47,12 +50,25 @@ Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::post('/contact', [PageController::class, 'contactSubmit'])->name('contact.submit');
 Route::get('/services', [PageController::class, 'services'])->name('services');
 Route::get('/account', [PageController::class, 'account'])->name('account');
-Route::get('/checkout', [PageController::class, 'checkout'])->name('checkout');
 Route::get('/privacy-policy', [PageController::class, 'privacy'])->name('privacy');
 Route::get('/terms-and-conditions', [PageController::class, 'terms'])->name('terms');
 Route::get('/faqs', [PageController::class, 'faqs'])->name('faqs');
 Route::get('/careers', [PageController::class, 'careers'])->name('careers');
 Route::get('/track-order', [PageController::class, 'trackOrder'])->name('track-order');
+
+// Checkout & Payment
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::get('/checkout/failed/{order}', [CheckoutController::class, 'failed'])->name('checkout.failed');
+
+Route::get('/payment/initiate/{order}', [PaymentController::class, 'initiate'])->name('payment.initiate');
+Route::get('/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
+Route::post('/payment/webhook', [PaymentController::class, 'webhook'])->name('payment.webhook');
+
+// Language Switch
+Route::get('/language/{locale}', [LanguageController::class, 'switch'])->name('language.switch');
+Route::get('/api/languages', [LanguageController::class, 'getLanguages'])->name('api.languages');
 
 // Authentication
 Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -90,4 +106,6 @@ Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function ()
     // Settings
     Route::get('settings', [AdminSettingController::class, 'index'])->name('settings.index');
     Route::post('settings', [AdminSettingController::class, 'update'])->name('settings.update');
+    Route::get('settings/payment', [AdminSettingController::class, 'payment'])->name('settings.payment');
+    Route::post('settings/payment', [AdminSettingController::class, 'updatePayment'])->name('settings.payment.update');
 });

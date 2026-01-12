@@ -3,6 +3,15 @@
 @section('title', 'Settings')
 
 @section('content')
+    <div class="settings-nav" style="display: flex; gap: 15px; margin-bottom: 25px;">
+        <a href="{{ route('admin.settings.index') }}" class="btn btn-primary">
+            <i class="fas fa-cog"></i> General Settings
+        </a>
+        <a href="{{ route('admin.settings.payment') }}" class="btn btn-outline">
+            <i class="fas fa-credit-card"></i> Payment Settings
+        </a>
+    </div>
+
     <div class="card">
         <div class="card-header">
             <h3>Site Settings</h3>
