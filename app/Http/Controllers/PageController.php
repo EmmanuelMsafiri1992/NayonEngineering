@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContactMessage;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -19,15 +20,15 @@ class PageController extends Controller
 
     public function contactSubmit(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
+            'phone' => 'nullable|string|max:50',
             'subject' => 'required|string|max:255',
             'message' => 'required|string',
         ]);
 
-        // Here you would typically send an email or save to database
-        // Mail::to(config('mail.admin'))->send(new ContactMessage($request->all()));
+        ContactMessage::create($validated);
 
         return back()->with('success', 'Thank you for your message! We\'ll get back to you soon.');
     }

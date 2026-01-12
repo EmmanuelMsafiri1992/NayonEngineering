@@ -6,6 +6,13 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\MessageController as AdminMessageController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use Illuminate\Support\Facades\Route;
 
 // Home
@@ -51,3 +58,36 @@ Route::get('/track-order', [PageController::class, 'trackOrder'])->name('track-o
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Admin Panel
+Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function () {
+    Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+    // Products
+    Route::resource('products', AdminProductController::class);
+    Route::post('products/{product}/toggle/{field}', [AdminProductController::class, 'toggleStatus'])->name('products.toggle');
+
+    // Categories
+    Route::resource('categories', AdminCategoryController::class);
+    Route::post('categories/reorder', [AdminCategoryController::class, 'reorder'])->name('categories.reorder');
+
+    // Users
+    Route::resource('users', AdminUserController::class);
+    Route::post('users/{user}/toggle-admin', [AdminUserController::class, 'toggleAdmin'])->name('users.toggleAdmin');
+
+    // Messages
+    Route::get('messages', [AdminMessageController::class, 'index'])->name('messages.index');
+    Route::get('messages/{message}', [AdminMessageController::class, 'show'])->name('messages.show');
+    Route::delete('messages/{message}', [AdminMessageController::class, 'destroy'])->name('messages.destroy');
+    Route::post('messages/{message}/read', [AdminMessageController::class, 'markAsRead'])->name('messages.markRead');
+    Route::post('messages/mark-all-read', [AdminMessageController::class, 'markAllAsRead'])->name('messages.markAllRead');
+
+    // Orders
+    Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');
+    Route::get('orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+    Route::put('orders/{order}', [AdminOrderController::class, 'update'])->name('orders.update');
+
+    // Settings
+    Route::get('settings', [AdminSettingController::class, 'index'])->name('settings.index');
+    Route::post('settings', [AdminSettingController::class, 'update'])->name('settings.update');
+});
