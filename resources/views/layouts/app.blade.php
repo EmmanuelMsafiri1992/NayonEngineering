@@ -46,9 +46,15 @@
             <!-- Logo -->
             <div class="logo">
                 <a href="{{ route('home') }}">
-                    <span class="logo-text">Nayon <span>Engineering</span></span>
+                    <img src="{{ asset('images/logo.svg') }}" alt="Nayon Engineering" class="logo-img">
+                    <span class="logo-text-mobile">Nayon <span>Engineering</span></span>
                 </a>
             </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
 
             <!-- Search Bar -->
             <div class="search-bar">
