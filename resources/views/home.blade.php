@@ -154,22 +154,22 @@
             </div>
             <div class="brands-slider">
                 <div class="brand-item">
-                    <img src="https://via.placeholder.com/150x50?text=3M" alt="3M">
+                    <img src="https://ui-avatars.com/api/?name=3M&size=150&background=f5f5f5&color=0079c1&bold=true&format=svg" alt="3M">
                 </div>
                 <div class="brand-item">
-                    <img src="https://via.placeholder.com/150x50?text=ACDC" alt="ACDC">
+                    <img src="https://ui-avatars.com/api/?name=ACDC&size=150&background=f5f5f5&color=0079c1&bold=true&format=svg" alt="ACDC">
                 </div>
                 <div class="brand-item">
-                    <img src="https://via.placeholder.com/150x50?text=Energizer" alt="Energizer">
+                    <img src="https://ui-avatars.com/api/?name=Energizer&size=150&background=f5f5f5&color=0079c1&bold=true&format=svg" alt="Energizer">
                 </div>
                 <div class="brand-item">
-                    <img src="https://via.placeholder.com/150x50?text=Citiq" alt="Citiq">
+                    <img src="https://ui-avatars.com/api/?name=Citiq&size=150&background=f5f5f5&color=0079c1&bold=true&format=svg" alt="Citiq">
                 </div>
                 <div class="brand-item">
-                    <img src="https://via.placeholder.com/150x50?text=Victron" alt="Victron">
+                    <img src="https://ui-avatars.com/api/?name=Victron&size=150&background=f5f5f5&color=0079c1&bold=true&format=svg" alt="Victron">
                 </div>
                 <div class="brand-item">
-                    <img src="https://via.placeholder.com/150x50?text=Legrand" alt="Legrand">
+                    <img src="https://ui-avatars.com/api/?name=Legrand&size=150&background=f5f5f5&color=0079c1&bold=true&format=svg" alt="Legrand">
                 </div>
             </div>
         </div>
