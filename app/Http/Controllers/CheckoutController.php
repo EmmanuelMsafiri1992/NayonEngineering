@@ -47,6 +47,8 @@ class CheckoutController extends Controller
         $paystackEnabled = Setting::get('paystack_enabled', false);
         $paystackPublicKey = Setting::get('paystack_public_key', '');
 
+        $currencyService = $this->currencyService;
+
         return view('checkout.index', compact(
             'cart',
             'subtotal',
@@ -58,7 +60,8 @@ class CheckoutController extends Controller
             'currency',
             'exchangeRate',
             'paystackEnabled',
-            'paystackPublicKey'
+            'paystackPublicKey',
+            'currencyService'
         ));
     }
 

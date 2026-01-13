@@ -25,9 +25,10 @@
                     <span class="info-label">{{ __('messages.total') }}:</span>
                     <span class="info-value">
                         @php
+                            $currencyService = app(\App\Services\CurrencyService::class);
                             $displayTotal = $order->currency === 'MZN' ? $order->total * $order->exchange_rate : $order->total;
                         @endphp
-                        {{ $order->currency === 'MZN' ? 'MT' : 'R' }} {{ number_format($displayTotal, 2) }}
+                        {{ $currencyService->format($displayTotal, $order->currency) }}
                     </span>
                 </div>
             </div>

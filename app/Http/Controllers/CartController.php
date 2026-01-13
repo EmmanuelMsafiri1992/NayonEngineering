@@ -3,12 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Services\CurrencyService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CartController extends Controller
 {
+    protected CurrencyService $currencyService;
+
+    public function __construct(CurrencyService $currencyService)
+    {
+        $this->currencyService = $currencyService;
+    }
+
     public function index(): View
     {
         $cart = session()->get('cart', []);
@@ -31,7 +39,10 @@ class CartController extends Controller
         $vat = $subtotal * 0.15;
         $total = $subtotal + $vat;
 
-        return view('cart.index', compact('cartItems', 'subtotal', 'vat', 'total'));
+        // Format amounts in current currency
+        $currencyService = $this->currencyService;
+
+        return view('cart.index', compact('cartItems', 'subtotal', 'vat', 'total', 'currencyService'));
     }
 
     public function add(Request $request): JsonResponse

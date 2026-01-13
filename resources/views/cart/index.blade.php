@@ -58,7 +58,7 @@
                                         <button type="button" onclick="updateQuantity({{ $item['product']->id }}, 1)">+</button>
                                     </div>
                                 </td>
-                                <td><strong>R {{ number_format($item['total'], 2) }}</strong></td>
+                                <td><strong>{{ $currencyService->formatPrice($item['total']) }}</strong></td>
                                 <td>
                                     <button type="button" onclick="removeFromCart({{ $item['product']->id }})" class="remove-btn" title="Remove">
                                         <i class="fas fa-trash-alt"></i>
@@ -72,18 +72,18 @@
 
                 <!-- Cart Summary -->
                 <div class="cart-summary">
-                    <h3 style="margin-bottom: 20px;">Cart Summary</h3>
+                    <h3 style="margin-bottom: 20px;">{{ __('messages.order_summary') }}</h3>
                     <div class="summary-row">
-                        <span>Subtotal</span>
-                        <span>R {{ number_format($subtotal, 2) }}</span>
+                        <span>{{ __('messages.subtotal') }}</span>
+                        <span>{{ $currencyService->formatPrice($subtotal) }}</span>
                     </div>
                     <div class="summary-row">
-                        <span>VAT (15%)</span>
-                        <span>R {{ number_format($vat, 2) }}</span>
+                        <span>{{ __('messages.vat') }}</span>
+                        <span>{{ $currencyService->formatPrice($vat) }}</span>
                     </div>
                     <div class="summary-row total">
-                        <span>Total</span>
-                        <span>R {{ number_format($total, 2) }}</span>
+                        <span>{{ __('messages.total') }}</span>
+                        <span>{{ $currencyService->formatPrice($total) }}</span>
                     </div>
                     <a href="{{ route('checkout') }}" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
                         Proceed to Checkout

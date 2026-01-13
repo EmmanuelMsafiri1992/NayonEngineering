@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\CurrencyService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -87,12 +88,14 @@ class Product extends Model
 
     public function getFormattedPriceAttribute(): string
     {
-        return 'R ' . number_format($this->net_price, 2);
+        $currencyService = app(CurrencyService::class);
+        return $currencyService->formatPrice($this->net_price);
     }
 
     public function getFormattedListPriceAttribute(): string
     {
-        return 'R ' . number_format($this->list_price, 2);
+        $currencyService = app(CurrencyService::class);
+        return $currencyService->formatPrice($this->list_price);
     }
 
     public function getSavingsAttribute(): float
@@ -103,6 +106,12 @@ class Product extends Model
     public function getPriceWithVatAttribute(): float
     {
         return $this->net_price * 1.15;
+    }
+
+    public function getFormattedPriceWithVatAttribute(): string
+    {
+        $currencyService = app(CurrencyService::class);
+        return $currencyService->formatPrice($this->price_with_vat);
     }
 
     public function getImageUrlAttribute(): string

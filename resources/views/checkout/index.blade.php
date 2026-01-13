@@ -78,9 +78,8 @@
                                 <div class="item-price">
                                     @php
                                         $itemTotal = $item['price'] * $item['quantity'];
-                                        $displayItemTotal = $currency === 'MZN' ? $itemTotal * $exchangeRate : $itemTotal;
                                     @endphp
-                                    {{ $currency === 'MZN' ? 'MT' : 'R' }} {{ number_format($displayItemTotal, 2) }}
+                                    {{ $currencyService->formatPrice($itemTotal) }}
                                 </div>
                             </div>
                             @endforeach
@@ -89,15 +88,15 @@
                         <div class="order-totals">
                             <div class="total-row">
                                 <span>{{ __('messages.subtotal') }}</span>
-                                <span>{{ $currency === 'MZN' ? 'MT' : 'R' }} {{ number_format($displaySubtotal, 2) }}</span>
+                                <span>{{ $currencyService->formatPrice($subtotal) }}</span>
                             </div>
                             <div class="total-row">
                                 <span>{{ __('messages.vat') }}</span>
-                                <span>{{ $currency === 'MZN' ? 'MT' : 'R' }} {{ number_format($displayVat, 2) }}</span>
+                                <span>{{ $currencyService->formatPrice($vat) }}</span>
                             </div>
                             <div class="total-row total-final">
                                 <span>{{ __('messages.total') }}</span>
-                                <span>{{ $currency === 'MZN' ? 'MT' : 'R' }} {{ number_format($displayTotal, 2) }}</span>
+                                <span>{{ $currencyService->formatPrice($total) }}</span>
                             </div>
                         </div>
 

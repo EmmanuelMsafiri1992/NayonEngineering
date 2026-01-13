@@ -54,7 +54,7 @@
                             <span class="discount">Save {{ $product->discount }}%</span>
                         </div>
                         <div class="net-price">{{ $product->formatted_price }}</div>
-                        <span class="price-vat">excl. VAT (R {{ number_format($product->price_with_vat, 2) }} incl. VAT)</span>
+                        <span class="price-vat">excl. VAT ({{ $product->formatted_price_with_vat }} incl. VAT)</span>
                     </div>
 
                     <div class="product-stock mb-3">
