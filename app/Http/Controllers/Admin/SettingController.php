@@ -209,4 +209,41 @@ class SettingController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Show About Us page settings
+     */
+    public function aboutUs()
+    {
+        $settings = Setting::getAll();
+        return view('admin.settings.about-us', compact('settings'));
+    }
+
+    /**
+     * Update About Us page settings
+     */
+    public function updateAboutUs(Request $request)
+    {
+        $fields = [
+            'about_intro_title',
+            'about_intro_text_1',
+            'about_intro_text_2',
+            'about_intro_text_3',
+            'about_mission_title',
+            'about_mission_text',
+            'about_vision_title',
+            'about_vision_text',
+            'about_values_title',
+            'about_values_text',
+            'about_industries',
+        ];
+
+        foreach ($fields as $field) {
+            Setting::set($field, $request->input($field, ''));
+        }
+
+        Setting::clearCache();
+
+        return back()->with('success', 'About Us page updated successfully.');
+    }
 }

@@ -16,6 +16,9 @@
         <a href="{{ route('admin.settings.content') }}" class="btn btn-outline">
             <i class="fas fa-edit"></i> Content
         </a>
+        <a href="{{ route('admin.settings.about-us') }}" class="btn btn-outline">
+            <i class="fas fa-info-circle"></i> About Us
+        </a>
         <a href="{{ route('admin.settings.payment') }}" class="btn btn-primary">
             <i class="fas fa-credit-card"></i> Payment
         </a>

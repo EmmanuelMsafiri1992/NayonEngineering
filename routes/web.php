@@ -119,4 +119,7 @@ Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function ()
     Route::get('settings/payment', [AdminSettingController::class, 'payment'])->name('settings.payment');
     Route::post('settings/payment', [AdminSettingController::class, 'updatePayment'])->name('settings.payment.update');
     Route::post('settings/currency/refresh', [AdminSettingController::class, 'refreshCurrency'])->name('settings.currency.refresh');
+
+    Route::get('settings/about-us', [AdminSettingController::class, 'aboutUs'])->name('settings.about-us');
+    Route::post('settings/about-us', [AdminSettingController::class, 'updateAboutUs'])->name('settings.about-us.update');
 });

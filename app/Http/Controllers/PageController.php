@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -10,7 +11,8 @@ class PageController extends Controller
 {
     public function about(): View
     {
-        return view('pages.about');
+        $settings = Setting::getAll();
+        return view('pages.about', compact('settings'));
     }
 
     public function contact(): View
