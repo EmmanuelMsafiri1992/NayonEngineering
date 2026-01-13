@@ -70,6 +70,9 @@ Route::post('/payment/webhook', [PaymentController::class, 'webhook'])->name('pa
 Route::get('/language/{locale}', [LanguageController::class, 'switch'])->name('language.switch');
 Route::get('/api/languages', [LanguageController::class, 'getLanguages'])->name('api.languages');
 
+// Country/Currency Switch
+Route::get('/country/{country}', [LanguageController::class, 'switchCountry'])->name('country.switch');
+
 // Authentication
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');

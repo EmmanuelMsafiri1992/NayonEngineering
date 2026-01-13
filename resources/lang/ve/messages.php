@@ -134,4 +134,5 @@ return [
     'results' => 'mvelelo',
     'no_results' => 'A hu na mvelelo dzo wanalaho',
     'select_language' => 'Nanga Luambo',
+    'select_country' => 'Nanga Shango',
 ];

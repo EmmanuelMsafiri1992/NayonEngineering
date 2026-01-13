@@ -134,4 +134,5 @@ return [
     'results' => 'diphetho',
     'no_results' => 'Ha ho diphetho tse fumaneho',
     'select_language' => 'Khetha Puo',
+    'select_country' => 'Khetha Naha',
 ];

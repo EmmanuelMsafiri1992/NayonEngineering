@@ -134,4 +134,5 @@ return [
     'results' => 'resultados',
     'no_results' => 'Nenhum resultado encontrado',
     'select_language' => 'Selecionar Idioma',
+    'select_country' => 'Selecionar País',
 ];

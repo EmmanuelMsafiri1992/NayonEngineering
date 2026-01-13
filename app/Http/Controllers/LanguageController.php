@@ -61,4 +61,32 @@ class LanguageController extends Controller
             'country' => $country,
         ]);
     }
+
+    /**
+     * Switch the country and currency
+     */
+    public function switchCountry(Request $request, string $country)
+    {
+        $supportedCountries = ['ZA', 'MZ'];
+
+        // Validate country
+        if (!in_array($country, $supportedCountries)) {
+            return redirect()->back()->with('error', 'Unsupported country.');
+        }
+
+        // Get country config
+        $config = $this->geoService->getCountryConfig($country);
+
+        // Update session with new country, currency, and default locale
+        session([
+            'country' => $country,
+            'currency' => $config['currency'],
+            'locale' => $config['locale'],
+        ]);
+
+        // Set application locale
+        app()->setLocale($config['locale']);
+
+        return redirect()->back();
+    }
 }

@@ -134,4 +134,5 @@ return [
     'results' => 'dipholo',
     'no_results' => 'Ga go na dipholo tse di bonweng',
     'select_language' => 'Tlhopha Puo',
+    'select_country' => 'Tlhopha Naga',
 ];

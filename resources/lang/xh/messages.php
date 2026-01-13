@@ -134,4 +134,5 @@ return [
     'results' => 'iziphumo',
     'no_results' => 'Akukho ziphumo zifunyenweyo',
     'select_language' => 'Khetha Ulwimi',
+    'select_country' => 'Khetha Ilizwe',
 ];

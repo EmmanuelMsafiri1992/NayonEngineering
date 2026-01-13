@@ -134,4 +134,5 @@ return [
     'results' => 'resultate',
     'no_results' => 'Geen resultate gevind',
     'select_language' => 'Kies Taal',
+    'select_country' => 'Kies Land',
 ];

@@ -115,6 +115,7 @@
                 <span><i class="fas fa-envelope"></i> {{ $siteSettings['topbar_email'] ?? $siteSettings['site_email'] ?? 'info@nayon-engineering.co.za' }}</span>
             </div>
             <div class="top-bar-right">
+                @include('partials.country-switcher')
                 @include('partials.language-switcher')
                 <a href="{{ route('account') }}">{{ __('messages.account') }}</a>
                 <a href="{{ route('track-order') }}">{{ __('messages.track_order') }}</a>

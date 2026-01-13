@@ -134,4 +134,5 @@ return [
     'results' => 'dipoelo',
     'no_results' => 'Ga go na dipoelo tše di hweditšwego',
     'select_language' => 'Kgetha Polelo',
+    'select_country' => 'Kgetha Naga',
 ];

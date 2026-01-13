@@ -134,4 +134,5 @@ return [
     'results' => 'imiphumela',
     'no_results' => 'Kute imiphumela letfolakele',
     'select_language' => 'Khetsa Lulwimi',
+    'select_country' => 'Khetsa Live',
 ];

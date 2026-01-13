@@ -134,4 +134,5 @@ return [
     'results' => 'mbuyelo',
     'no_results' => 'A ku na mbuyelo lowu kumekaka',
     'select_language' => 'Hlawula Ririmi',
+    'select_country' => 'Hlawula Tiko',
 ];

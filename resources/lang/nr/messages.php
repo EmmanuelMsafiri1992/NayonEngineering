@@ -134,4 +134,5 @@ return [
     'results' => 'imiphumela',
     'no_results' => 'Akukho miphumela efunyanweko',
     'select_language' => 'Khetha Ilimi',
+    'select_country' => 'Khetha Inarha',
 ];
