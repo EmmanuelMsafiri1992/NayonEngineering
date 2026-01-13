@@ -108,6 +108,12 @@ return [
     'careers' => 'Mosebetsi',
     'copyright' => 'Ditokelo tsohle di siretswe.',
 
+    // Services
+    'switchgear' => 'Diswitjhi tsa Motlakase',
+    'electrical_supplies' => 'Dithuso tsa Motlakase',
+    'project_management' => 'Taolo ya Projekeke',
+    'installations' => 'Ho Kenya',
+
     // General
     'welcome' => 'Rea o Amohela',
     'loading' => 'E a Laesha...',

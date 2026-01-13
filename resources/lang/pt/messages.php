@@ -108,6 +108,12 @@ return [
     'careers' => 'Carreiras',
     'copyright' => 'Todos os direitos reservados.',
 
+    // Services
+    'switchgear' => 'Quadros Eléctricos',
+    'electrical_supplies' => 'Fornecimentos Eléctricos',
+    'project_management' => 'Gestão de Projectos',
+    'installations' => 'Instalações',
+
     // General
     'welcome' => 'Bem-vindo',
     'loading' => 'A carregar...',

@@ -108,6 +108,12 @@ return [
     'careers' => 'Amathuba Omsebenzi',
     'copyright' => 'Amalungelo onke agodliwe.',
 
+    // Services
+    'switchgear' => 'Izinsiza Zikagesi',
+    'electrical_supplies' => 'Izimpahla Zikagesi',
+    'project_management' => 'Ukuphatha Iphrojekthi',
+    'installations' => 'Ukufakwa',
+
     // General
     'welcome' => 'Siyakwamukela',
     'loading' => 'Iyalayisha...',

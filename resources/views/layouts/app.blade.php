@@ -160,7 +160,7 @@
                     @if(count(session('wishlist', [])) > 0)
                         <span class="count">{{ count(session('wishlist', [])) }}</span>
                     @endif
-                    <span class="action-text">Wishlist</span>
+                    <span class="action-text">{{ __('messages.wishlist') }}</span>
                 </a>
                 <a href="{{ route('cart.index') }}" class="header-action">
                     <i class="fas fa-shopping-cart"></i>
@@ -170,11 +170,11 @@
                     @if($cartCount > 0)
                         <span class="count">{{ $cartCount }}</span>
                     @endif
-                    <span class="action-text">Cart</span>
+                    <span class="action-text">{{ __('messages.cart') }}</span>
                 </a>
                 <a href="{{ route('account') }}" class="header-action">
                     <i class="far fa-user"></i>
-                    <span class="action-text">Account</span>
+                    <span class="action-text">{{ __('messages.account') }}</span>
                 </a>
             </div>
         </div>
@@ -192,7 +192,7 @@
                 <li>
                     <a href="{{ route('products.index') }}" class="categories-btn">
                         <i class="fas fa-th-large"></i>
-                        All Categories
+                        {{ __('messages.all_categories') }}
                         <i class="fas fa-chevron-down"></i>
                     </a>
                     <ul class="dropdown-menu">
@@ -206,19 +206,19 @@
                     </ul>
                 </li>
 
-                <li><a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a></li>
-                <li><a href="{{ route('products.index') }}" class="{{ request()->routeIs('products.*') ? 'active' : '' }}">Products</a></li>
+                <li><a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">{{ __('messages.home') }}</a></li>
+                <li><a href="{{ route('products.index') }}" class="{{ request()->routeIs('products.*') ? 'active' : '' }}">{{ __('messages.products') }}</a></li>
                 <li>
-                    <a href="{{ route('services') }}">Services <i class="fas fa-chevron-down"></i></a>
+                    <a href="{{ route('services') }}">{{ __('messages.services') }} <i class="fas fa-chevron-down"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ route('services') }}#switchgear">Switchgear</a></li>
-                        <li><a href="{{ route('services') }}#electrical">Electrical Supplies</a></li>
-                        <li><a href="{{ route('services') }}#projects">Project Management</a></li>
-                        <li><a href="{{ route('services') }}#installations">Installations</a></li>
+                        <li><a href="{{ route('services') }}#switchgear">{{ __('messages.switchgear') }}</a></li>
+                        <li><a href="{{ route('services') }}#electrical">{{ __('messages.electrical_supplies') }}</a></li>
+                        <li><a href="{{ route('services') }}#projects">{{ __('messages.project_management') }}</a></li>
+                        <li><a href="{{ route('services') }}#installations">{{ __('messages.installations') }}</a></li>
                     </ul>
                 </li>
-                <li><a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">About Us</a></li>
-                <li><a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a></li>
+                <li><a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">{{ __('messages.about') }}</a></li>
+                <li><a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">{{ __('messages.contact') }}</a></li>
             </ul>
         </div>
     </nav>

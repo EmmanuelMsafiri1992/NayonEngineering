@@ -108,6 +108,12 @@ return [
     'careers' => 'Mishumo',
     'copyright' => 'Pfanelo dzoṱhe dzo tsireledzeaho.',
 
+    // Services
+    'switchgear' => 'Zwishumiswa zwa Muḓagasi',
+    'electrical_supplies' => 'Zwishumiswa zwa Muḓagasi',
+    'project_management' => 'U Langula Poroḓeke',
+    'installations' => 'U Tsenya',
+
     // General
     'welcome' => 'Ri a Ni Ṱanganedza',
     'loading' => 'I khou Louthisa...',

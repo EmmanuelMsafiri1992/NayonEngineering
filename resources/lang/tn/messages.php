@@ -108,6 +108,12 @@ return [
     'careers' => 'Ditiro',
     'copyright' => 'Ditshwanelo tsotlhe di bolokitswe.',
 
+    // Services
+    'switchgear' => 'Ditlhopha tsa Motlakase',
+    'electrical_supplies' => 'Dithuso tsa Motlakase',
+    'project_management' => 'Taolo ya Porojeke',
+    'installations' => 'Go Tsenya',
+
     // General
     'welcome' => 'O Amogelwa',
     'loading' => 'E a Rwala...',

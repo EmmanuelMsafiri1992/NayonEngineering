@@ -108,6 +108,12 @@ return [
     'careers' => 'Mintirho',
     'copyright' => 'Timfanelo hinkwato ti sirhelekile.',
 
+    // Services
+    'switchgear' => 'Switirhisiwa swa Gezi',
+    'electrical_supplies' => 'Swilo swa Gezi',
+    'project_management' => 'Vulawuri bya Phurojeke',
+    'installations' => 'Ku Nghenisa',
+
     // General
     'welcome' => 'Xewani',
     'loading' => 'Yi Layicha...',

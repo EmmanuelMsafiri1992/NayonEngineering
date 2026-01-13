@@ -108,6 +108,12 @@ return [
     'careers' => 'Amathuba Omsebenzi',
     'copyright' => 'Onke amalungelo agciniwe.',
 
+    // Services
+    'switchgear' => 'Izixhobo Zombane',
+    'electrical_supplies' => 'Izinto Zombane',
+    'project_management' => 'Ulawulo Lweprojekthi',
+    'installations' => 'Ukufakelwa',
+
     // General
     'welcome' => 'Wamkelekile',
     'loading' => 'Iyalayisha...',

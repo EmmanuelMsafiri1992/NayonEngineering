@@ -38,18 +38,19 @@
     align-items: center;
     gap: 8px;
     background: transparent;
-    border: 1px solid #ddd;
+    border: 1px solid rgba(255,255,255,0.3);
     padding: 8px 12px;
     border-radius: 6px;
     cursor: pointer;
-    color: #333;
+    color: #fff;
     font-size: 14px;
     transition: all 0.3s;
 }
 
 .lang-toggle:hover {
     border-color: #0079C1;
-    color: #0079C1;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
 }
 
 .lang-toggle .fa-globe {

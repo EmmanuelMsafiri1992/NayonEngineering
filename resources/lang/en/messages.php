@@ -108,6 +108,12 @@ return [
     'careers' => 'Careers',
     'copyright' => 'All rights reserved.',
 
+    // Services
+    'switchgear' => 'Switchgear',
+    'electrical_supplies' => 'Electrical Supplies',
+    'project_management' => 'Project Management',
+    'installations' => 'Installations',
+
     // General
     'welcome' => 'Welcome',
     'loading' => 'Loading...',

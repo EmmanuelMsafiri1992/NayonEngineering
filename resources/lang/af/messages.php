@@ -108,6 +108,12 @@ return [
     'careers' => 'Loopbane',
     'copyright' => 'Alle regte voorbehou.',
 
+    // Services
+    'switchgear' => 'Skakeltuig',
+    'electrical_supplies' => 'Elektriese Voorrade',
+    'project_management' => 'Projekbestuur',
+    'installations' => 'Installasies',
+
     // General
     'welcome' => 'Welkom',
     'loading' => 'Laai...',

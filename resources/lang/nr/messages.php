@@ -108,6 +108,12 @@ return [
     'careers' => 'Imisebenzi',
     'copyright' => 'Woke amalungelo avikelwe.',
 
+    // Services
+    'switchgear' => 'Iinsiza Zikagesi',
+    'electrical_supplies' => 'Iimpahla Zikagesi',
+    'project_management' => 'Ukuphatha Umklamo',
+    'installations' => 'Ukufaka',
+
     // General
     'welcome' => 'Siyakwamukela',
     'loading' => 'Iyalayisha...',

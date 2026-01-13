@@ -108,6 +108,12 @@ return [
     'careers' => 'Mešomo',
     'copyright' => 'Ditokelo kamoka di bolokilwe.',
 
+    // Services
+    'switchgear' => 'Dišomi tša Mohlagase',
+    'electrical_supplies' => 'Ditlabelo tša Mohlagase',
+    'project_management' => 'Taolo ya Porojeke',
+    'installations' => 'Go Tsenya',
+
     // General
     'welcome' => 'O Amogetšwe',
     'loading' => 'E a Laetša...',

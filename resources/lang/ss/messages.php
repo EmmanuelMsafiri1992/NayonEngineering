@@ -108,6 +108,12 @@ return [
     'careers' => 'Imisebenti',
     'copyright' => 'Onkhe emalungelo avikeliwe.',
 
+    // Services
+    'switchgear' => 'Tinsita Tekugesi',
+    'electrical_supplies' => 'Tintfo Tekugesi',
+    'project_management' => 'Kuphatsa Umklamo',
+    'installations' => 'Kufaka',
+
     // General
     'welcome' => 'Siyakwemukela',
     'loading' => 'Iyalayisha...',
