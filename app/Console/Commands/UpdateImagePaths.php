@@ -42,10 +42,18 @@ class UpdateImagePaths extends Command
         $bar->start();
 
         foreach ($products as $product) {
-            $sku = strtolower(Str::slug($product->sku));
+            // Try direct match first
+            $sku = strtolower($product->sku);
+
+            // Also try slugified version for special characters
+            $skuSlug = strtolower(Str::slug($product->sku));
 
             if (isset($imageMap[$sku])) {
                 $product->image = $imageMap[$sku];
+                $product->save();
+                $updated++;
+            } elseif (isset($imageMap[$skuSlug])) {
+                $product->image = $imageMap[$skuSlug];
                 $product->save();
                 $updated++;
             }
