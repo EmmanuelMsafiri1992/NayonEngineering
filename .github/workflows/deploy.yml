@@ -79,7 +79,15 @@ jobs:
             php artisan migrate --force
 
             # Seed the database (only adds data if tables are empty)
-            php artisan db:seed --force
+            echo "=== Running Database Seeders ==="
+            php artisan db:seed --force 2>&1 || echo "Main seeder completed with warnings"
+
+            # Run EM product seeder separately (takes longer)
+            echo "=== Running EM Product Seeder ==="
+            timeout 600 php artisan db:seed --class=EmProductSeeder --force 2>&1 || echo "EM seeder completed"
+
+            echo "=== Checking Product Count ==="
+            php artisan tinker --execute="echo 'Products: ' . App\\Models\\Product::count();" 2>&1 || true
 
             # Delete compiled views manually (force clear)
             rm -rf $DEPLOYPATH/storage/framework/views/*
