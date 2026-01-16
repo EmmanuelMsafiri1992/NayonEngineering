@@ -11,11 +11,21 @@ class EmProductSeeder extends Seeder
 {
     public function run(): void
     {
-        // Skip if products already exist (more than 100 products suggests already seeded)
-        if (Product::count() > 100) {
-            $this->command->info('Products already exist in database, skipping EM product seeding.');
+        // Skip only if EM products already exist (check for products with 'em/' image prefix or ElectroMechanica brand)
+        $emProductCount = Product::where('brand', 'like', '%Electro%')
+            ->orWhere('brand', 'like', '%EM%')
+            ->orWhere('brand', 'like', '%Finder%')
+            ->orWhere('brand', 'like', '%Lovato%')
+            ->orWhere('brand', 'like', '%Hager%')
+            ->orWhere('brand', 'like', '%Socomec%')
+            ->count();
+
+        if ($emProductCount > 1000) {
+            $this->command->info("EM products already exist ({$emProductCount} found), skipping seeding.");
             return;
         }
+
+        $this->command->info("Found {$emProductCount} existing EM products, proceeding with import...");
 
         $this->command->info('Starting EM product seeding...');
 
