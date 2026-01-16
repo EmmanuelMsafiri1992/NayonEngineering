@@ -3,12 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactMessage;
+use App\Models\Page;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class PageController extends Controller
 {
+    /**
+     * Display a dynamic page by slug.
+     */
+    public function showDynamic(Page $page): View
+    {
+        // Only show published pages
+        if (!$page->is_published) {
+            abort(404);
+        }
+
+        $settings = Setting::getAll();
+        $sections = $page->activeSections;
+
+        return view('pages.dynamic', compact('page', 'settings', 'sections'));
+    }
+
     public function about(): View
     {
         $settings = Setting::getAll();

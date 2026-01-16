@@ -16,6 +16,9 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\MessageController as AdminMessageController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
+use App\Http\Controllers\Admin\PageController as AdminPageController;
+use App\Http\Controllers\Admin\MenuController as AdminMenuController;
+use App\Http\Controllers\Admin\WidgetController as AdminWidgetController;
 use Illuminate\Support\Facades\Route;
 
 // Home
@@ -125,4 +128,35 @@ Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function ()
 
     Route::get('settings/about-us', [AdminSettingController::class, 'aboutUs'])->name('settings.about-us');
     Route::post('settings/about-us', [AdminSettingController::class, 'updateAboutUs'])->name('settings.about-us.update');
+
+    // Pages Management
+    Route::resource('pages', AdminPageController::class);
+    Route::post('pages/reorder', [AdminPageController::class, 'reorder'])->name('pages.reorder');
+    Route::post('pages/{page}/duplicate', [AdminPageController::class, 'duplicate'])->name('pages.duplicate');
+    Route::post('pages/{page}/toggle-publish', [AdminPageController::class, 'togglePublish'])->name('pages.togglePublish');
+    Route::get('pages/{page}/preview', [AdminPageController::class, 'preview'])->name('pages.preview');
+
+    // Page Sections
+    Route::post('pages/{page}/sections', [AdminPageController::class, 'storeSection'])->name('pages.sections.store');
+    Route::put('pages/{page}/sections/{section}', [AdminPageController::class, 'updateSection'])->name('pages.sections.update');
+    Route::delete('pages/{page}/sections/{section}', [AdminPageController::class, 'destroySection'])->name('pages.sections.destroy');
+    Route::post('pages/{page}/sections/reorder', [AdminPageController::class, 'reorderSections'])->name('pages.sections.reorder');
+    Route::post('pages/{page}/sections/{section}/toggle', [AdminPageController::class, 'toggleSection'])->name('pages.sections.toggle');
+
+    // Menus Management
+    Route::resource('menus', AdminMenuController::class);
+    Route::post('menus/{menu}/items', [AdminMenuController::class, 'storeItem'])->name('menus.items.store');
+    Route::put('menus/{menu}/items/{item}', [AdminMenuController::class, 'updateItem'])->name('menus.items.update');
+    Route::delete('menus/{menu}/items/{item}', [AdminMenuController::class, 'destroyItem'])->name('menus.items.destroy');
+    Route::post('menus/{menu}/items/reorder', [AdminMenuController::class, 'reorderItems'])->name('menus.items.reorder');
+    Route::post('menus/{menu}/items/{item}/toggle', [AdminMenuController::class, 'toggleItem'])->name('menus.items.toggle');
+
+    // Widgets Management
+    Route::resource('widgets', AdminWidgetController::class);
+    Route::post('widgets/reorder', [AdminWidgetController::class, 'reorder'])->name('widgets.reorder');
+    Route::post('widgets/{widget}/toggle', [AdminWidgetController::class, 'toggle'])->name('widgets.toggle');
+    Route::post('widgets/{widget}/duplicate', [AdminWidgetController::class, 'duplicate'])->name('widgets.duplicate');
 });
+
+// Dynamic Pages (must be at the end to catch slugs)
+Route::get('/page/{page}', [PageController::class, 'showDynamic'])->name('page.show');
