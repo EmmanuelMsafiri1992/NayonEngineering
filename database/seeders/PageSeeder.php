@@ -11,12 +11,28 @@ class PageSeeder extends Seeder
 {
     public function run(): void
     {
-        // Disable foreign key checks and clear existing data
-        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        // Skip if pages already exist (prevent duplicate seeding)
+        if (Page::count() > 0) {
+            return;
+        }
+
+        // Disable foreign key checks and clear existing data (database-agnostic)
+        $driver = \DB::getDriverName();
+        if ($driver === 'sqlite') {
+            \DB::statement('PRAGMA foreign_keys = OFF;');
+        } else {
+            \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        }
+
         MenuItem::truncate();
         Menu::truncate();
         Page::truncate();
-        \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        if ($driver === 'sqlite') {
+            \DB::statement('PRAGMA foreign_keys = ON;');
+        } else {
+            \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        }
 
         // Create About Us Page
         Page::create([
