@@ -89,6 +89,10 @@ jobs:
             echo "=== Checking Product Count ==="
             php artisan tinker --execute="echo 'Products: ' . App\\Models\\Product::count();" 2>&1 || true
 
+            # Update product image paths to match downloaded images
+            echo "=== Updating Product Image Paths ==="
+            php artisan products:update-images 2>&1 || echo "Image path update completed"
+
             # Delete compiled views manually (force clear)
             rm -rf $DEPLOYPATH/storage/framework/views/*
             rm -rf $DEPLOYPATH/bootstrap/cache/*.php
