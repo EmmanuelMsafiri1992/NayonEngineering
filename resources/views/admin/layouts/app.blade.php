@@ -552,6 +552,9 @@
             <a href="{{ route('admin.widgets.index') }}" class="nav-item {{ request()->routeIs('admin.widgets.*') ? 'active' : '' }}">
                 <i class="fas fa-puzzle-piece"></i> Widgets
             </a>
+            <a href="{{ route('admin.gallery.index') }}" class="nav-item {{ request()->routeIs('admin.gallery.*') ? 'active' : '' }}">
+                <i class="fas fa-images"></i> Gallery
+            </a>
 
             <div class="nav-section">System</div>
             <a href="{{ route('admin.users.index') }}" class="nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">

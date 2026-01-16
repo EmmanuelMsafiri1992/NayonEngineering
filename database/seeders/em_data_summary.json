@@ -1,0 +1,328 @@
+{
+    "categories": [
+        {
+            "name": "Automation Products",
+            "slug": "automation-products",
+            "icon": "fas fa-cogs",
+            "sort_order": 1,
+            "is_active": true
+        },
+        {
+            "name": "Circuit Breakers & Switchgear",
+            "slug": "circuit-breakers-switchgear",
+            "icon": "fas fa-bolt",
+            "sort_order": 2,
+            "is_active": true
+        },
+        {
+            "name": "Enclosures & Fittings",
+            "slug": "enclosures-fittings",
+            "icon": "fas fa-box",
+            "sort_order": 3,
+            "is_active": true
+        },
+        {
+            "name": "Lighting",
+            "slug": "lighting",
+            "icon": "fas fa-lightbulb",
+            "sort_order": 4,
+            "is_active": true
+        },
+        {
+            "name": "Power Supplies & Transformers",
+            "slug": "power-supplies-transformers",
+            "icon": "fas fa-car-battery",
+            "sort_order": 5,
+            "is_active": true
+        },
+        {
+            "name": "Solar",
+            "slug": "solar",
+            "icon": "fas fa-solar-panel",
+            "sort_order": 6,
+            "is_active": true
+        },
+        {
+            "name": "Installation & Wiring",
+            "slug": "installation-wiring",
+            "icon": "fas fa-plug",
+            "sort_order": 7,
+            "is_active": true
+        },
+        {
+            "name": "Catalogue",
+            "slug": "catalogue",
+            "icon": "fa-plug",
+            "sort_order": 11,
+            "is_active": true
+        },
+        {
+            "name": "Customer Request",
+            "slug": "customer-request",
+            "icon": "fa-plug",
+            "sort_order": 12,
+            "is_active": true
+        },
+        {
+            "name": "BOM Component",
+            "slug": "bom-component",
+            "icon": "fa-plug",
+            "sort_order": 13,
+            "is_active": true
+        },
+        {
+            "name": "Marketing Collateral",
+            "slug": "marketing-collateral",
+            "icon": "fa-plug",
+            "sort_order": 14,
+            "is_active": true
+        },
+        {
+            "name": "Clearance",
+            "slug": "clearance",
+            "icon": "fa-plug",
+            "sort_order": 15,
+            "is_active": true
+        },
+        {
+            "name": "Engineer To Order",
+            "slug": "engineer-to-order",
+            "icon": "fa-plug",
+            "sort_order": 16,
+            "is_active": true
+        },
+        {
+            "name": "KNX",
+            "slug": "knx",
+            "icon": "fa-plug",
+            "sort_order": 17,
+            "is_active": true
+        },
+        {
+            "name": "Services",
+            "slug": "services",
+            "icon": "fa-plug",
+            "sort_order": 18,
+            "is_active": true
+        },
+        {
+            "name": "Catalogue Products",
+            "slug": "catalogue-products",
+            "icon": "fa-book",
+            "sort_order": 19,
+            "is_active": true
+        },
+        {
+            "name": "Custom Products",
+            "slug": "custom-products",
+            "icon": "fa-wrench",
+            "sort_order": 20,
+            "is_active": true
+        },
+        {
+            "name": "Current Transformers",
+            "slug": "current-transformers",
+            "icon": "fa-charging-station",
+            "sort_order": 21,
+            "is_active": true
+        },
+        {
+            "name": "Fuses & Protection",
+            "slug": "fuses-protection",
+            "icon": "fa-shield-alt",
+            "sort_order": 22,
+            "is_active": true
+        },
+        {
+            "name": "Circuit Breakers & MCBs",
+            "slug": "circuit-breakers-mcbs",
+            "icon": "fa-microchip",
+            "sort_order": 23,
+            "is_active": true
+        },
+        {
+            "name": "Motor Control",
+            "slug": "motor-control",
+            "icon": "fa-fan",
+            "sort_order": 24,
+            "is_active": true
+        },
+        {
+            "name": "Beacons & Alarms",
+            "slug": "beacons-alarms",
+            "icon": "fa-bell",
+            "sort_order": 25,
+            "is_active": true
+        },
+        {
+            "name": "Enclosures & Cabinets",
+            "slug": "enclosures-cabinets",
+            "icon": "fa-box",
+            "sort_order": 26,
+            "is_active": true
+        },
+        {
+            "name": "Cable & Wiring",
+            "slug": "cable-wiring",
+            "icon": "fa-ethernet",
+            "sort_order": 27,
+            "is_active": true
+        },
+        {
+            "name": "Terminals & Connectors",
+            "slug": "terminals-connectors",
+            "icon": "fa-link",
+            "sort_order": 28,
+            "is_active": true
+        },
+        {
+            "name": "Sensors & Proximity",
+            "slug": "sensors-proximity",
+            "icon": "fa-satellite-dish",
+            "sort_order": 29,
+            "is_active": true
+        },
+        {
+            "name": "DIN Rail & Mounting",
+            "slug": "din-rail-mounting",
+            "icon": "fa-bars",
+            "sort_order": 30,
+            "is_active": true
+        },
+        {
+            "name": "Energy Meters",
+            "slug": "energy-meters",
+            "icon": "fa-tachometer-alt",
+            "sort_order": 31,
+            "is_active": true
+        },
+        {
+            "name": "Relays & Sockets",
+            "slug": "relays-sockets",
+            "icon": "fa-exchange-alt",
+            "sort_order": 32,
+            "is_active": true
+        },
+        {
+            "name": "Safety Equipment",
+            "slug": "safety-equipment",
+            "icon": "fa-shield-alt",
+            "sort_order": 33,
+            "is_active": true
+        },
+        {
+            "name": "Contactors & Motor Starters",
+            "slug": "contactors-motor-starters",
+            "icon": "fa-plug",
+            "sort_order": 34,
+            "is_active": true
+        },
+        {
+            "name": "Switches & Isolators",
+            "slug": "switches-isolators",
+            "icon": "fa-toggle-on",
+            "sort_order": 35,
+            "is_active": true
+        },
+        {
+            "name": "PLCs & Controllers",
+            "slug": "plcs-controllers",
+            "icon": "fa-microchip",
+            "sort_order": 36,
+            "is_active": true
+        },
+        {
+            "name": "Panel Meters",
+            "slug": "panel-meters",
+            "icon": "fa-tachometer-alt",
+            "sort_order": 37,
+            "is_active": true
+        },
+        {
+            "name": "Timers & Counters",
+            "slug": "timers-counters",
+            "icon": "fa-clock",
+            "sort_order": 38,
+            "is_active": true
+        },
+        {
+            "name": "UPS & Power Supply",
+            "slug": "ups-power-supply",
+            "icon": "fa-battery-half",
+            "sort_order": 39,
+            "is_active": true
+        },
+        {
+            "name": "Pushbuttons & Controls",
+            "slug": "pushbuttons-controls",
+            "icon": "fa-hand-pointer",
+            "sort_order": 40,
+            "is_active": true
+        },
+        {
+            "name": "Encoders",
+            "slug": "encoders",
+            "icon": "fa-sync",
+            "sort_order": 41,
+            "is_active": true
+        },
+        {
+            "name": "Overload Relays",
+            "slug": "overload-relays",
+            "icon": "fa-exchange-alt",
+            "sort_order": 42,
+            "is_active": true
+        },
+        {
+            "name": "Power Analysers",
+            "slug": "power-analysers",
+            "icon": "fa-chart-line",
+            "sort_order": 43,
+            "is_active": true
+        },
+        {
+            "name": "Pilot Lights & Indicators",
+            "slug": "pilot-lights-indicators",
+            "icon": "fa-lightbulb",
+            "sort_order": 44,
+            "is_active": true
+        },
+        {
+            "name": "HMI & Displays",
+            "slug": "hmi-displays",
+            "icon": "fa-desktop",
+            "sort_order": 45,
+            "is_active": true
+        },
+        {
+            "name": "Capacitors & Power Factor",
+            "slug": "capacitors-power-factor",
+            "icon": "fa-battery-full",
+            "sort_order": 46,
+            "is_active": true
+        },
+        {
+            "name": "Variable Frequency Drives",
+            "slug": "variable-frequency-drives",
+            "icon": "fa-cogs",
+            "sort_order": 47,
+            "is_active": true
+        },
+        {
+            "name": "Temperature Control",
+            "slug": "temperature-control",
+            "icon": "fa-thermometer-half",
+            "sort_order": 48,
+            "is_active": true
+        },
+        {
+            "name": "Transformers",
+            "slug": "transformers",
+            "icon": "fa-charging-station",
+            "sort_order": 49,
+            "is_active": true
+        }
+    ],
+    "products_count": 13254,
+    "categories_count": 46
+}

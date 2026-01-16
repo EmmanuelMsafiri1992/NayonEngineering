@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\MenuController as AdminMenuController;
 use App\Http\Controllers\Admin\WidgetController as AdminWidgetController;
+use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
 use Illuminate\Support\Facades\Route;
 
 // Home
@@ -156,6 +157,11 @@ Route::prefix('admin')->middleware(['admin'])->name('admin.')->group(function ()
     Route::post('widgets/reorder', [AdminWidgetController::class, 'reorder'])->name('widgets.reorder');
     Route::post('widgets/{widget}/toggle', [AdminWidgetController::class, 'toggle'])->name('widgets.toggle');
     Route::post('widgets/{widget}/duplicate', [AdminWidgetController::class, 'duplicate'])->name('widgets.duplicate');
+
+    // Gallery Management
+    Route::resource('gallery', AdminGalleryController::class);
+    Route::post('gallery/{gallery}/toggle/{field}', [AdminGalleryController::class, 'toggleStatus'])->name('gallery.toggle');
+    Route::post('gallery/reorder', [AdminGalleryController::class, 'reorder'])->name('gallery.reorder');
 });
 
 // Dynamic Pages (must be at the end to catch slugs)

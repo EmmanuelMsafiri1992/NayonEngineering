@@ -19,7 +19,11 @@
       "Bash(grep:*)",
       "Bash(git status:*)",
       "Bash(git rm:*)",
-      "Bash(git restore:*)"
+      "Bash(git restore:*)",
+      "WebFetch(domain:muchanda.com)",
+      "WebFetch(domain:www.em.co.za)",
+      "WebSearch",
+      "Bash(xargs:*)"
     ]
   }
 }
