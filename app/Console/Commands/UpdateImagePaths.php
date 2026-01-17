@@ -35,31 +35,33 @@ class UpdateImagePaths extends Command
             $imageMap[strtolower($sku)] = 'em/' . $filename;
         }
 
-        // Update products
+        // Update products using chunking to avoid memory issues
         $updated = 0;
-        $products = Product::all();
-        $bar = $this->output->createProgressBar($products->count());
+        $total = Product::count();
+        $bar = $this->output->createProgressBar($total);
         $bar->start();
 
-        foreach ($products as $product) {
-            // Try direct match first
-            $sku = strtolower($product->sku);
+        Product::chunk(500, function ($products) use ($imageMap, &$updated, $bar) {
+            foreach ($products as $product) {
+                // Try direct match first
+                $sku = strtolower($product->sku);
 
-            // Also try slugified version for special characters
-            $skuSlug = strtolower(Str::slug($product->sku));
+                // Also try slugified version for special characters
+                $skuSlug = strtolower(Str::slug($product->sku));
 
-            if (isset($imageMap[$sku])) {
-                $product->image = $imageMap[$sku];
-                $product->save();
-                $updated++;
-            } elseif (isset($imageMap[$skuSlug])) {
-                $product->image = $imageMap[$skuSlug];
-                $product->save();
-                $updated++;
+                if (isset($imageMap[$sku])) {
+                    $product->image = $imageMap[$sku];
+                    $product->save();
+                    $updated++;
+                } elseif (isset($imageMap[$skuSlug])) {
+                    $product->image = $imageMap[$skuSlug];
+                    $product->save();
+                    $updated++;
+                }
+
+                $bar->advance();
             }
-
-            $bar->advance();
-        }
+        });
 
         $bar->finish();
         $this->newLine(2);

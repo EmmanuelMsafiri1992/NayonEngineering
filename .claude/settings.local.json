@@ -23,7 +23,8 @@
       "WebFetch(domain:muchanda.com)",
       "WebFetch(domain:www.em.co.za)",
       "WebSearch",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "Bash(sqlite3:*)"
     ]
   }
 }
