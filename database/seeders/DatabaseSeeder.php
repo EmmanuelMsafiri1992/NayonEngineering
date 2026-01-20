@@ -22,8 +22,9 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // Seed products, categories, and pages
+        // Seed settings, products, categories, and pages
         $this->call([
+            SettingsSeeder::class,
             ProductSeeder::class,
             PageSeeder::class,
             EmProductSeeder::class,

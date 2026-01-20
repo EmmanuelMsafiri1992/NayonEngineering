@@ -82,6 +82,10 @@ jobs:
             echo "=== Running Database Seeders ==="
             php artisan db:seed --force 2>&1 || echo "Main seeder completed with warnings"
 
+            # Run settings seeder to ensure proper defaults
+            echo "=== Running Settings Seeder ==="
+            php artisan db:seed --class=SettingsSeeder --force 2>&1 || echo "Settings seeder completed"
+
             # Run EM product seeder separately (takes longer)
             echo "=== Running EM Product Seeder ==="
             timeout 600 php artisan db:seed --class=EmProductSeeder --force 2>&1 || echo "EM seeder completed"
@@ -97,12 +101,15 @@ jobs:
             rm -rf $DEPLOYPATH/storage/framework/views/*
             rm -rf $DEPLOYPATH/bootstrap/cache/*.php
 
-            # Clear all caches
+            # Clear all caches including settings cache
             php artisan config:clear
             php artisan route:clear
             php artisan view:clear
             php artisan cache:clear
             php artisan optimize:clear
+
+            # Clear settings cache from database
+            php artisan tinker --execute="App\\Models\\Setting::clearCache();" 2>&1 || echo "Settings cache cleared"
 
             # Rebuild caches
             php artisan config:cache
