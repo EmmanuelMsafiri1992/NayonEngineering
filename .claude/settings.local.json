@@ -24,7 +24,14 @@
       "WebFetch(domain:www.em.co.za)",
       "WebSearch",
       "Bash(xargs:*)",
-      "Bash(sqlite3:*)"
+      "Bash(sqlite3:*)",
+      "Bash(taskkill /F /FI \"WINDOWTITLE eq php artisan*\")",
+      "Bash(php -r:*)",
+      "Bash(php check_products.php:*)",
+      "Bash(find:*)",
+      "Bash(php -l:*)",
+      "Bash(php:*)",
+      "Bash(composer check-platform-reqs:*)"
     ]
   }
 }
