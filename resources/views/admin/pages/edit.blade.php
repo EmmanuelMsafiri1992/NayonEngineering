@@ -465,7 +465,7 @@
     function openEditSectionModal(sectionId) {
         const section = sectionsData[sectionId];
         if (section) {
-            document.getElementById('editSectionForm').action = '{{ url("admin/pages/" . $page->id . "/sections") }}/' + sectionId;
+            document.getElementById('editSectionForm').action = '{{ url("admin/pages/" . $page->slug . "/sections") }}/' + sectionId;
             document.getElementById('edit_type').value = section.type;
             document.getElementById('edit_title').value = section.title || '';
             document.getElementById('edit_content').value = section.content || '';
@@ -481,7 +481,7 @@
     }
 
     function toggleSection(sectionId) {
-        fetch('{{ url("admin/pages/" . $page->id . "/sections") }}/' + sectionId + '/toggle', {
+        fetch('{{ url("admin/pages/" . $page->slug . "/sections") }}/' + sectionId + '/toggle', {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -492,7 +492,7 @@
     function deleteSection(sectionId) {
         if (confirm('Are you sure you want to delete this section?')) {
             const form = document.getElementById('deleteSectionForm');
-            form.action = '{{ url("admin/pages/" . $page->id . "/sections") }}/' + sectionId;
+            form.action = '{{ url("admin/pages/" . $page->slug . "/sections") }}/' + sectionId;
             form.submit();
         }
     }
