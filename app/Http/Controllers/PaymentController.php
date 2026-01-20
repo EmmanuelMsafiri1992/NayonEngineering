@@ -19,11 +19,25 @@ class PaymentController extends Controller
     }
 
     /**
+     * Get Paystack secret key from environment (preferred) or database fallback
+     */
+    protected function getPaystackSecretKey(): ?string
+    {
+        // Prefer environment variable for security
+        $envKey = env('PAYSTACK_SECRET_KEY');
+        if ($envKey) {
+            return $envKey;
+        }
+        // Fallback to database setting for backwards compatibility
+        return Setting::get('paystack_secret_key');
+    }
+
+    /**
      * Initiate Paystack payment
      */
     public function initiate(Order $order)
     {
-        $secretKey = Setting::get('paystack_secret_key');
+        $secretKey = $this->getPaystackSecretKey();
 
         if (!$secretKey) {
             return redirect()->route('checkout.failed', $order)
@@ -98,7 +112,7 @@ class PaymentController extends Controller
             return redirect()->route('home')->with('error', 'Invalid payment reference.');
         }
 
-        $secretKey = Setting::get('paystack_secret_key');
+        $secretKey = $this->getPaystackSecretKey();
 
         try {
             $response = Http::withToken($secretKey)
@@ -163,7 +177,7 @@ class PaymentController extends Controller
     public function webhook(Request $request)
     {
         // Verify webhook signature
-        $secretKey = Setting::get('paystack_secret_key');
+        $secretKey = $this->getPaystackSecretKey();
         $signature = $request->header('x-paystack-signature');
 
         if (!$signature) {

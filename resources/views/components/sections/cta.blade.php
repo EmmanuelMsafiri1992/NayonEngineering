@@ -1,12 +1,22 @@
 @php
+    // Sanitize color values to prevent CSS injection
+    $sanitizeColor = function($color) {
+        if (empty($color)) return '';
+        if (preg_match('/^#[0-9A-Fa-f]{3,6}$/', $color)) return $color;
+        $validColors = ['white','black','red','green','blue','yellow','orange','purple','pink','gray','grey','transparent'];
+        return in_array(strtolower($color), $validColors) ? $color : '';
+    };
+
     $bgStyle = 'background: linear-gradient(135deg, #0079c1 0%, #005a8e 100%);';
-    if ($section->background_color) {
-        $bgStyle = "background-color: {$section->background_color};";
+    $bgColor = $sanitizeColor($section->background_color);
+    if ($bgColor) {
+        $bgStyle = "background-color: {$bgColor};";
     }
     if ($section->background_image) {
-        $bgStyle = "background-image: linear-gradient(rgba(0,121,193,0.9), rgba(0,90,142,0.9)), url('" . Storage::url($section->background_image) . "'); background-size: cover; background-position: center;";
+        $bgStyle = "background-image: linear-gradient(rgba(0,121,193,0.9), rgba(0,90,142,0.9)), url('" . e(Storage::url($section->background_image)) . "'); background-size: cover; background-position: center;";
     }
-    $textStyle = $section->text_color ? "color: {$section->text_color};" : 'color: #fff;';
+    $textColor = $sanitizeColor($section->text_color);
+    $textStyle = $textColor ? "color: {$textColor};" : 'color: #fff;';
     $settings = $section->settings ?? [];
 @endphp
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AuditLog;
 use App\Models\Page;
 use App\Models\PageSection;
 use Illuminate\Http\Request;
@@ -119,6 +120,9 @@ class PageController extends Controller
             Page::where('id', '!=', $page->id)->update(['is_homepage' => false]);
         }
 
+        // Audit log
+        AuditLog::log('create', "Created page: {$page->title}", 'Page', $page->id, null, $validated);
+
         return redirect()->route('admin.pages.edit', $page)
             ->with('success', 'Page created successfully. You can now add sections.');
     }
@@ -202,6 +206,7 @@ class PageController extends Controller
             $validated['og_image'] = $request->file('og_image')->store('pages/og', 'public');
         }
 
+        $oldValues = $page->toArray();
         $page->update($validated);
 
         // If set as homepage, update other pages
@@ -209,12 +214,19 @@ class PageController extends Controller
             Page::where('id', '!=', $page->id)->update(['is_homepage' => false]);
         }
 
+        // Audit log
+        AuditLog::log('update', "Updated page: {$page->title}", 'Page', $page->id, $oldValues, $validated);
+
         return redirect()->route('admin.pages.edit', $page)
             ->with('success', 'Page updated successfully.');
     }
 
     public function destroy(Page $page)
     {
+        $pageTitle = $page->title;
+        $pageId = $page->id;
+        $oldValues = $page->toArray();
+
         // Delete associated images
         if ($page->featured_image) {
             Storage::disk('public')->delete($page->featured_image);
@@ -224,6 +236,10 @@ class PageController extends Controller
         }
 
         $page->delete();
+
+        // Audit log
+        AuditLog::log('delete', "Deleted page: {$pageTitle}", 'Page', $pageId, $oldValues, null);
+
         return redirect()->route('admin.pages.index')->with('success', 'Page deleted successfully.');
     }
 

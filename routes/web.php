@@ -77,9 +77,11 @@ Route::get('/api/languages', [LanguageController::class, 'getLanguages'])->name(
 // Country/Currency Switch
 Route::get('/country/{country}', [LanguageController::class, 'switchCountry'])->name('country.switch');
 
-// Authentication
-Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/register', [AuthController::class, 'register'])->name('register');
+// Authentication (rate limited to prevent brute force attacks)
+Route::middleware(['throttle:5,1'])->group(function () {
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
+});
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Admin Panel

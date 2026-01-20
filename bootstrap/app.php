@@ -16,8 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'locale' => \App\Http\Middleware\SetLocale::class,
         ]);
 
-        // Apply locale middleware to web routes
+        // Apply security and locale middleware to web routes
         $middleware->web(append: [
+            \App\Http\Middleware\SecurityHeaders::class,
             \App\Http\Middleware\SetLocale::class,
         ]);
     })
