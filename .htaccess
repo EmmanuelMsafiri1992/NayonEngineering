@@ -8,9 +8,28 @@ Options -Indexes
     RewriteEngine On
     RewriteBase /
 
-    # Redirect all requests to public folder
-    RewriteCond %{REQUEST_URI} !^/public/
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # If file exists in root (css, js, images), serve it directly
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+
+    # If directory exists in root, serve it
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # If file exists in public folder, serve it
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
     RewriteRule ^(.*)$ public/$1 [L]
+
+    # If directory exists in public folder, serve it
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -d
+    RewriteRule ^(.*)$ public/$1 [L]
+
+    # Otherwise, send everything to Laravel's front controller
+    RewriteRule ^(.*)$ public/index.php [L,QSA]
 </IfModule>
 
 # Deny access to sensitive files
