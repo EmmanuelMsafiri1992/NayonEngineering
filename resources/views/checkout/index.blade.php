@@ -65,21 +65,18 @@
                         <h2>{{ __('messages.order_summary') }}</h2>
 
                         <div class="order-items">
-                            @foreach($cart as $productId => $item)
+                            @foreach($cartItems as $productId => $item)
                             <div class="order-item">
                                 <div class="item-image">
-                                    <img src="{{ $item['image'] ?? asset('images/placeholder.png') }}"
-                                         alt="{{ $item['name'] }}">
+                                    <img src="{{ $item['product']->image_url }}"
+                                         alt="{{ $item['product']->name }}">
                                 </div>
                                 <div class="item-details">
-                                    <span class="item-name">{{ $item['name'] }}</span>
+                                    <span class="item-name">{{ $item['product']->name }}</span>
                                     <span class="item-qty">x {{ $item['quantity'] }}</span>
                                 </div>
                                 <div class="item-price">
-                                    @php
-                                        $itemTotal = $item['price'] * $item['quantity'];
-                                    @endphp
-                                    {{ $currencyService->formatPrice($itemTotal) }}
+                                    {{ $currencyService->formatPrice($item['total']) }}
                                 </div>
                             </div>
                             @endforeach

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Setting;
 use App\Services\CurrencyService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\View\View;
 
 class CheckoutController extends Controller
 {
@@ -20,7 +23,7 @@ class CheckoutController extends Controller
     /**
      * Display the checkout page
      */
-    public function index()
+    public function index(): View|RedirectResponse
     {
         $cart = session('cart', []);
 
@@ -28,9 +31,31 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index')->with('error', __('messages.cart_empty'));
         }
 
+        // Fetch all products in one query to avoid N+1
+        $productIds = array_keys($cart);
+        $products = Product::whereIn('id', $productIds)->get()->keyBy('id');
+
+        // Build cart items with product data and calculate subtotal
+        $cartItems = [];
         $subtotal = 0;
-        foreach ($cart as $item) {
-            $subtotal += $item['price'] * $item['quantity'];
+        foreach ($cart as $productId => $item) {
+            $product = $products->get($productId);
+            if ($product) {
+                $itemTotal = $product->net_price * $item['quantity'];
+                $subtotal += $itemTotal;
+                $cartItems[$productId] = [
+                    'product' => $product,
+                    'quantity' => $item['quantity'],
+                    'price' => $product->net_price,
+                    'total' => $itemTotal,
+                ];
+            }
+        }
+
+        // If no valid products found, clear cart and redirect
+        if (empty($cartItems)) {
+            session()->forget('cart');
+            return redirect()->route('cart.index')->with('error', __('messages.cart_empty'));
         }
 
         $vat = $subtotal * 0.15;
@@ -50,7 +75,7 @@ class CheckoutController extends Controller
         $currencyService = $this->currencyService;
 
         return view('checkout.index', compact(
-            'cart',
+            'cartItems',
             'subtotal',
             'vat',
             'total',
@@ -68,7 +93,7 @@ class CheckoutController extends Controller
     /**
      * Process the checkout and create an order
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'customer_name' => 'required|string|max:255',
@@ -84,18 +109,33 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index')->with('error', __('messages.cart_empty'));
         }
 
-        // Calculate totals in ZAR (base currency)
+        // Fetch all products in one query to avoid N+1
+        $productIds = array_keys($cart);
+        $products = Product::whereIn('id', $productIds)->get()->keyBy('id');
+
+        // Calculate totals in ZAR (base currency) and build items array
         $subtotal = 0;
         $items = [];
         foreach ($cart as $productId => $item) {
-            $subtotal += $item['price'] * $item['quantity'];
-            $items[] = [
-                'product_id' => $productId,
-                'name' => $item['name'],
-                'price' => $item['price'],
-                'quantity' => $item['quantity'],
-                'image' => $item['image'] ?? null,
-            ];
+            $product = $products->get($productId);
+            if ($product) {
+                $itemTotal = $product->net_price * $item['quantity'];
+                $subtotal += $itemTotal;
+                $items[] = [
+                    'product_id' => $productId,
+                    'name' => $product->name,
+                    'sku' => $product->sku,
+                    'price' => $product->net_price,
+                    'quantity' => $item['quantity'],
+                    'image' => $product->image,
+                ];
+            }
+        }
+
+        // If no valid products found, clear cart and redirect
+        if (empty($items)) {
+            session()->forget('cart');
+            return redirect()->route('cart.index')->with('error', __('messages.cart_empty'));
         }
 
         $vat = $subtotal * 0.15;
@@ -143,7 +183,7 @@ class CheckoutController extends Controller
     /**
      * Display order success page
      */
-    public function success(Order $order)
+    public function success(Order $order): View
     {
         return view('checkout.success', compact('order'));
     }
@@ -151,7 +191,7 @@ class CheckoutController extends Controller
     /**
      * Display order failed page
      */
-    public function failed(Order $order)
+    public function failed(Order $order): View
     {
         return view('checkout.failed', compact('order'));
     }

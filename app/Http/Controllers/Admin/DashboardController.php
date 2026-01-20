@@ -8,10 +8,11 @@ use App\Models\ContactMessage;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $stats = [
             'products' => Product::count(),
@@ -24,9 +25,14 @@ class DashboardController extends Controller
             'out_of_stock' => Product::where('stock', 0)->count(),
         ];
 
-        $recentOrders = Order::latest()->limit(5)->get();
+        // Eager load relationships to prevent N+1 queries in views
+        $recentOrders = Order::with('user')->latest()->limit(5)->get();
         $recentMessages = ContactMessage::latest()->limit(5)->get();
-        $topProducts = Product::orderBy('stock', 'asc')->where('is_active', true)->limit(5)->get();
+        $topProducts = Product::with('category')
+            ->where('is_active', true)
+            ->orderBy('stock', 'asc')
+            ->limit(5)
+            ->get();
 
         return view('admin.dashboard', compact('stats', 'recentOrders', 'recentMessages', 'topProducts'));
     }

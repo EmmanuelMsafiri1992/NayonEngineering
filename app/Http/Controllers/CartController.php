@@ -23,16 +23,22 @@ class CartController extends Controller
         $cartItems = [];
         $subtotal = 0;
 
-        foreach ($cart as $productId => $item) {
-            $product = Product::find($productId);
-            if ($product) {
-                $itemTotal = $product->net_price * $item['quantity'];
-                $subtotal += $itemTotal;
-                $cartItems[] = [
-                    'product' => $product,
-                    'quantity' => $item['quantity'],
-                    'total' => $itemTotal,
-                ];
+        if (!empty($cart)) {
+            // Fetch all products in one query to avoid N+1
+            $productIds = array_keys($cart);
+            $products = Product::whereIn('id', $productIds)->get()->keyBy('id');
+
+            foreach ($cart as $productId => $item) {
+                $product = $products->get($productId);
+                if ($product) {
+                    $itemTotal = $product->net_price * $item['quantity'];
+                    $subtotal += $itemTotal;
+                    $cartItems[] = [
+                        'product' => $product,
+                        'quantity' => $item['quantity'],
+                        'total' => $itemTotal,
+                    ];
+                }
             }
         }
 
