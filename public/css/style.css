@@ -284,6 +284,11 @@ img {
     align-items: center;
 }
 
+/* Hide mobile close button on desktop */
+.nav-menu .close-menu {
+    display: none;
+}
+
 .nav-menu > li {
     position: relative;
 }
@@ -1828,6 +1833,7 @@ img {
 
     /* Mobile menu close button */
     .nav-menu .close-menu {
+        display: block;
         position: absolute;
         top: 15px;
         right: 15px;
