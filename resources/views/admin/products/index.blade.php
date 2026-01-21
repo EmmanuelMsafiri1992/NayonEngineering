@@ -29,6 +29,28 @@
         </a>
     </div>
 
+    <div class="card" style="margin-bottom: 20px; background: #e8f4fc;">
+        <div class="card-body" style="padding: 15px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                <div>
+                    <strong><i class="fas fa-exchange-alt"></i> Exchange Rate Info</strong>
+                    <span style="margin-left: 15px;">
+                        Base Rate: <strong>1 ZAR = {{ number_format($exchangeRate, 4) }} MZN</strong>
+                    </span>
+                    <span style="margin-left: 15px;">
+                        Markup: <strong>{{ number_format($markupPercentage, 2) }}%</strong>
+                    </span>
+                    <span style="margin-left: 15px;">
+                        Effective Rate: <strong>1 ZAR = {{ number_format($effectiveRate, 4) }} MZN</strong>
+                    </span>
+                </div>
+                <a href="{{ route('admin.settings.payment') }}" class="btn btn-sm btn-outline">
+                    <i class="fas fa-cog"></i> Adjust Markup
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-body">
             @if($products->isEmpty())
@@ -46,7 +68,8 @@
                                 <th>SKU</th>
                                 <th>Name</th>
                                 <th>Category</th>
-                                <th>Price</th>
+                                <th>Price (ZAR)</th>
+                                <th>Price (MZN)</th>
                                 <th>Stock</th>
                                 <th>Status</th>
                                 <th>Actions</th>
@@ -64,6 +87,10 @@
                                 <td>
                                     <span style="text-decoration: line-through; color: var(--text-muted); font-size: 12px;">R {{ number_format($product->list_price, 2) }}</span><br>
                                     <strong>R {{ number_format($product->net_price, 2) }}</strong>
+                                </td>
+                                <td>
+                                    <span style="text-decoration: line-through; color: var(--text-muted); font-size: 12px;">MT {{ number_format($product->list_price * $effectiveRate, 2) }}</span><br>
+                                    <strong>MT {{ number_format($product->net_price * $effectiveRate, 2) }}</strong>
                                 </td>
                                 <td>
                                     @if($product->stock == 0)

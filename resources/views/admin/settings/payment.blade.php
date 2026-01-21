@@ -128,11 +128,31 @@
                     </div>
                 </div>
 
+                <div class="form-group" style="margin-top: 20px;">
+                    <label for="exchange_rate_markup">Exchange Rate Markup (%)</label>
+                    <input type="number" id="exchange_rate_markup" name="exchange_rate_markup"
+                           value="{{ $settings['exchange_rate_markup'] ?? '0' }}"
+                           step="0.01" min="0" max="100" style="max-width: 200px;">
+                    <p class="form-help">
+                        Add a percentage markup on top of the exchange rate. This markup will be applied to all product prices when converting to MZN.
+                    </p>
+                </div>
+
                 <div class="currency-preview">
                     <h4>Preview:</h4>
+                    @php
+                        $baseRate = $settings['mzn_exchange_rate'] ?? 3.5;
+                        $markup = $settings['exchange_rate_markup'] ?? 0;
+                        $effectiveRate = $baseRate * (1 + $markup / 100);
+                    @endphp
                     <p>
+                        <strong>Base Rate:</strong> 1 ZAR = <span id="base-rate-display">{{ number_format($baseRate, 4) }}</span> MZN<br>
+                        <strong>Markup:</strong> <span id="markup-display">{{ number_format($markup, 2) }}</span>%<br>
+                        <strong>Effective Rate:</strong> 1 ZAR = <span id="effective-rate-display">{{ number_format($effectiveRate, 4) }}</span> MZN
+                    </p>
+                    <p style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #ddd;">
                         <strong>R 100.00</strong> (ZAR) =
-                        <strong>MT <span id="mzn-preview">{{ number_format(100 * ($settings['mzn_exchange_rate'] ?? 3.5), 2) }}</span></strong> (MZN)
+                        <strong>MT <span id="mzn-preview">{{ number_format(100 * $effectiveRate, 2) }}</span></strong> (MZN)
                     </p>
                 </div>
 
@@ -392,12 +412,23 @@
     </style>
 
     <script>
-        // Update MZN preview
-        document.getElementById('mzn_exchange_rate')?.addEventListener('input', function() {
-            const rate = parseFloat(this.value) || 0;
-            const mznValue = (100 * rate).toFixed(2);
-            document.getElementById('mzn-preview').textContent = mznValue;
-        });
+        // Function to update all preview values
+        function updatePreview() {
+            const rate = parseFloat(document.getElementById('mzn_exchange_rate')?.value) || {{ $settings['mzn_exchange_rate'] ?? 3.5 }};
+            const markup = parseFloat(document.getElementById('exchange_rate_markup')?.value) || 0;
+            const effectiveRate = rate * (1 + markup / 100);
+
+            document.getElementById('base-rate-display').textContent = rate.toFixed(4);
+            document.getElementById('markup-display').textContent = markup.toFixed(2);
+            document.getElementById('effective-rate-display').textContent = effectiveRate.toFixed(4);
+            document.getElementById('mzn-preview').textContent = (100 * effectiveRate).toFixed(2);
+        }
+
+        // Update preview when exchange rate changes
+        document.getElementById('mzn_exchange_rate')?.addEventListener('input', updatePreview);
+
+        // Update preview when markup changes
+        document.getElementById('exchange_rate_markup')?.addEventListener('input', updatePreview);
 
         // Toggle auto/manual rate sections
         document.getElementById('currency_auto_toggle')?.addEventListener('change', function() {
@@ -432,7 +463,13 @@
             .then(data => {
                 if (data.success) {
                     const rate = data.rate;
-                    document.getElementById('mzn-preview').textContent = (100 * rate).toFixed(2);
+                    const markup = parseFloat(document.getElementById('exchange_rate_markup')?.value) || 0;
+                    const effectiveRate = rate * (1 + markup / 100);
+
+                    // Update preview displays
+                    document.getElementById('base-rate-display').textContent = rate.toFixed(4);
+                    document.getElementById('effective-rate-display').textContent = effectiveRate.toFixed(4);
+                    document.getElementById('mzn-preview').textContent = (100 * effectiveRate).toFixed(2);
 
                     // Update the info text
                     const infoBox = document.querySelector('.auto-rate-info .info-box p');
@@ -440,7 +477,7 @@
                         infoBox.innerHTML = `Current live rate: <strong>1 ZAR = ${rate.toFixed(4)} MZN</strong><br><small>Rates are cached for 6 hours and fetched from open.er-api.com</small>`;
                     }
 
-                    alert('Exchange rate refreshed! New rate: 1 ZAR = ' + rate.toFixed(4) + ' MZN');
+                    alert('Exchange rate refreshed! New rate: 1 ZAR = ' + rate.toFixed(4) + ' MZN (Effective with markup: ' + effectiveRate.toFixed(4) + ' MZN)');
                 } else {
                     alert('Failed to refresh rate: ' + (data.message || 'Unknown error'));
                 }

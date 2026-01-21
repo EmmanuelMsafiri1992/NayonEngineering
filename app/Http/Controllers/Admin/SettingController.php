@@ -168,6 +168,7 @@ class SettingController extends Controller
             'paystack_test_mode' => 'nullable',
             'currency_auto_update' => 'nullable',
             'mzn_exchange_rate' => 'nullable|numeric|min:0.01',
+            'exchange_rate_markup' => 'nullable|numeric|min:0|max:100',
         ]);
 
         // Store checkbox values as booleans
@@ -183,6 +184,9 @@ class SettingController extends Controller
         if (!$request->has('currency_auto_update') && isset($validated['mzn_exchange_rate'])) {
             Setting::set('mzn_exchange_rate', $validated['mzn_exchange_rate']);
         }
+
+        // Save exchange rate markup percentage
+        Setting::set('exchange_rate_markup', $validated['exchange_rate_markup'] ?? 0);
 
         Setting::clearCache();
 

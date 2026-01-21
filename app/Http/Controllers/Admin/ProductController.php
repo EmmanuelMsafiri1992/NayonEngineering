@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Services\CurrencyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, CurrencyService $currencyService)
     {
         $query = Product::with('category');
 
@@ -34,7 +35,12 @@ class ProductController extends Controller
         $products = $query->latest()->paginate(20)->withQueryString();
         $categories = Category::ordered()->get();
 
-        return view('admin.products.index', compact('products', 'categories'));
+        // Currency conversion info
+        $exchangeRate = $currencyService->getExchangeRate();
+        $markupPercentage = $currencyService->getMarkupPercentage();
+        $effectiveRate = $currencyService->getEffectiveExchangeRate();
+
+        return view('admin.products.index', compact('products', 'categories', 'exchangeRate', 'markupPercentage', 'effectiveRate'));
     }
 
     public function create()

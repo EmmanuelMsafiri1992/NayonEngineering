@@ -46,7 +46,7 @@ class CurrencyService
     }
 
     /**
-     * Get exchange rate for MZN (MZN per 1 ZAR)
+     * Get base exchange rate for MZN (MZN per 1 ZAR)
      * Automatically fetches from API if auto mode is enabled
      */
     public function getExchangeRate(): float
@@ -58,6 +58,25 @@ class CurrencyService
         }
 
         return (float) Setting::get('mzn_exchange_rate', 3.5);
+    }
+
+    /**
+     * Get the markup percentage applied to exchange rate
+     */
+    public function getMarkupPercentage(): float
+    {
+        return (float) Setting::get('exchange_rate_markup', 0);
+    }
+
+    /**
+     * Get effective exchange rate with markup applied
+     */
+    public function getEffectiveExchangeRate(): float
+    {
+        $baseRate = $this->getExchangeRate();
+        $markup = $this->getMarkupPercentage();
+
+        return $baseRate * (1 + $markup / 100);
     }
 
     /**
@@ -194,6 +213,7 @@ class CurrencyService
 
     /**
      * Convert amount from ZAR to specified currency
+     * Uses the effective exchange rate with markup applied
      */
     public function convert(float $amount, string $toCurrency, string $fromCurrency = 'ZAR'): float
     {
@@ -201,7 +221,7 @@ class CurrencyService
             return $amount;
         }
 
-        $rate = $this->getExchangeRate();
+        $rate = $this->getEffectiveExchangeRate();
 
         if ($fromCurrency === 'ZAR' && $toCurrency === 'MZN') {
             return $amount * $rate;
