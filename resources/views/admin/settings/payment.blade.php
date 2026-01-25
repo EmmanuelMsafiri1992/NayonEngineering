@@ -124,7 +124,7 @@
                         <label for="mzn_exchange_rate">Manual MZN Exchange Rate (1 ZAR = X MZN)</label>
                         <input type="number" id="mzn_exchange_rate" name="mzn_exchange_rate" class="form-control"
                                value="{{ $settings['mzn_exchange_rate'] ?? '3.50' }}"
-                               step="0.0001" min="0.01">
+                               step="0.0001" min="0.01" {{ $currencyAutoUpdate ? 'disabled' : '' }}>
                         <p class="form-help">
                             Enter the exchange rate manually. This rate will be used for all conversions.
                         </p>
@@ -433,13 +433,16 @@
         document.getElementById('currency_auto_toggle')?.addEventListener('change', function() {
             const autoInfo = document.getElementById('autoRateInfo');
             const manualSection = document.getElementById('manualRateSection');
+            const manualRateInput = document.getElementById('mzn_exchange_rate');
 
             if (this.checked) {
                 autoInfo.style.display = '';
                 manualSection.style.display = 'none';
+                if (manualRateInput) manualRateInput.disabled = true;
             } else {
                 autoInfo.style.display = 'none';
                 manualSection.style.display = '';
+                if (manualRateInput) manualRateInput.disabled = false;
             }
         });
 
