@@ -24,7 +24,7 @@
         </a>
     </div>
 
-    <form action="{{ route('admin.settings.payment.update') }}" method="POST">
+    <form action="{{ route('admin.settings.payment.update') }}" method="POST" id="payment-settings-form">
         @csrf
 
         <!-- Paystack Settings -->
@@ -36,7 +36,7 @@
                 <div class="form-group">
                     <label class="toggle-label">
                         <input type="checkbox" name="paystack_enabled" value="1"
-                               {{ $settings['paystack_enabled'] ?? false ? 'checked' : '' }}>
+                               {{ !empty($settings['paystack_enabled']) && $settings['paystack_enabled'] != '0' ? 'checked' : '' }}>
                         <span class="toggle-switch"></span>
                         <span class="toggle-text">Enable Paystack Payments</span>
                     </label>
@@ -46,7 +46,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="paystack_public_key">Paystack Public Key</label>
-                        <input type="text" id="paystack_public_key" name="paystack_public_key"
+                        <input type="text" id="paystack_public_key" name="paystack_public_key" class="form-control"
                                value="{{ $settings['paystack_public_key'] ?? '' }}"
                                placeholder="pk_live_xxxxxxxxxxxxxxxx">
                         <p class="form-help">Your Paystack public/publishable key.</p>
@@ -54,7 +54,7 @@
 
                     <div class="form-group">
                         <label for="paystack_secret_key">Paystack Secret Key</label>
-                        <input type="password" id="paystack_secret_key" name="paystack_secret_key"
+                        <input type="password" id="paystack_secret_key" name="paystack_secret_key" class="form-control"
                                value="{{ $settings['paystack_secret_key'] ?? '' }}"
                                placeholder="sk_live_xxxxxxxxxxxxxxxx">
                         <p class="form-help">Your Paystack secret key. Keep this secure!</p>
@@ -64,7 +64,7 @@
                 <div class="form-group">
                     <label class="toggle-label">
                         <input type="checkbox" name="paystack_test_mode" value="1"
-                               {{ $settings['paystack_test_mode'] ?? true ? 'checked' : '' }}>
+                               {{ !isset($settings['paystack_test_mode']) || (!empty($settings['paystack_test_mode']) && $settings['paystack_test_mode'] != '0') ? 'checked' : '' }}>
                         <span class="toggle-switch"></span>
                         <span class="toggle-text">Test Mode</span>
                     </label>
@@ -90,7 +90,7 @@
                 <div class="form-group">
                     <label class="toggle-label">
                         <input type="checkbox" name="currency_auto_update" value="1" id="currency_auto_toggle"
-                               {{ ($settings['currency_auto_update'] ?? true) ? 'checked' : '' }}>
+                               {{ !isset($settings['currency_auto_update']) || (!empty($settings['currency_auto_update']) && $settings['currency_auto_update'] != '0') ? 'checked' : '' }}>
                         <span class="toggle-switch"></span>
                         <span class="toggle-text">Auto-Update Exchange Rate</span>
                     </label>
@@ -100,7 +100,10 @@
                     </p>
                 </div>
 
-                <div class="auto-rate-info" id="autoRateInfo" style="{{ ($settings['currency_auto_update'] ?? true) ? '' : 'display: none;' }}">
+                @php
+                    $currencyAutoUpdate = !isset($settings['currency_auto_update']) || (!empty($settings['currency_auto_update']) && $settings['currency_auto_update'] != '0');
+                @endphp
+                <div class="auto-rate-info" id="autoRateInfo" style="{{ $currencyAutoUpdate ? '' : 'display: none;' }}">
                     <div class="info-box success">
                         <i class="fas fa-sync-alt"></i>
                         <div>
@@ -116,10 +119,10 @@
                     </div>
                 </div>
 
-                <div class="manual-rate-section" id="manualRateSection" style="{{ ($settings['currency_auto_update'] ?? true) ? 'display: none;' : '' }}">
+                <div class="manual-rate-section" id="manualRateSection" style="{{ $currencyAutoUpdate ? 'display: none;' : '' }}">
                     <div class="form-group">
                         <label for="mzn_exchange_rate">Manual MZN Exchange Rate (1 ZAR = X MZN)</label>
-                        <input type="number" id="mzn_exchange_rate" name="mzn_exchange_rate"
+                        <input type="number" id="mzn_exchange_rate" name="mzn_exchange_rate" class="form-control"
                                value="{{ $settings['mzn_exchange_rate'] ?? '3.50' }}"
                                step="0.0001" min="0.01">
                         <p class="form-help">
@@ -130,7 +133,7 @@
 
                 <div class="form-group" style="margin-top: 20px;">
                     <label for="exchange_rate_markup">Exchange Rate Markup (%)</label>
-                    <input type="number" id="exchange_rate_markup" name="exchange_rate_markup"
+                    <input type="number" id="exchange_rate_markup" name="exchange_rate_markup" class="form-control"
                            value="{{ $settings['exchange_rate_markup'] ?? '0' }}"
                            step="0.01" min="0" max="100" style="max-width: 200px;">
                     <p class="form-help">

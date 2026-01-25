@@ -65,7 +65,7 @@
                                         <img src="{{ asset('favicon.ico') }}" alt="Default Favicon" id="favicon-preview">
                                     @endif
                                 </div>
-                                <input type="file" name="site_favicon" id="site_favicon" accept="image/x-icon,image/png" class="file-input">
+                                <input type="file" name="site_favicon" id="site_favicon" accept=".ico,.png,image/x-icon,image/vnd.microsoft.icon,image/png,image/ico" class="file-input">
                                 <label for="site_favicon" class="file-label">
                                     <i class="fas fa-upload"></i> Choose Favicon
                                 </label>
@@ -174,7 +174,7 @@
                 <div class="form-group">
                     <label class="toggle-label">
                         <input type="checkbox" name="topbar_enabled" value="1"
-                               {{ ($settings['topbar_enabled'] ?? true) ? 'checked' : '' }}>
+                               {{ !isset($settings['topbar_enabled']) || (!empty($settings['topbar_enabled']) && $settings['topbar_enabled'] != '0') ? 'checked' : '' }}>
                         <span class="toggle-switch"></span>
                         <span class="toggle-text">Show Top Bar</span>
                     </label>

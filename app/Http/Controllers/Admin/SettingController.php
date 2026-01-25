@@ -70,7 +70,17 @@ class SettingController extends Controller
 
         if ($request->hasFile('site_favicon')) {
             $favicon = $request->file('site_favicon');
-            $faviconPath = 'uploads/logos/' . time() . '_favicon.' . $favicon->getClientOriginalExtension();
+            $extension = $favicon->getClientOriginalExtension();
+            // Handle ICO files that might not have extension
+            if (empty($extension)) {
+                $mimeType = $favicon->getMimeType();
+                if (str_contains($mimeType, 'icon') || str_contains($mimeType, 'ico')) {
+                    $extension = 'ico';
+                } else {
+                    $extension = 'png';
+                }
+            }
+            $faviconPath = 'uploads/logos/' . time() . '_favicon.' . $extension;
             $favicon->move(public_path('uploads/logos'), basename($faviconPath));
             Setting::set('site_favicon', $faviconPath);
         }
@@ -85,7 +95,7 @@ class SettingController extends Controller
             Setting::set($field, $request->input($field, ''));
         }
 
-        Setting::set('topbar_enabled', $request->has('topbar_enabled'));
+        Setting::set('topbar_enabled', $request->has('topbar_enabled') ? '1' : '0');
         Setting::clearCache();
 
         return back()->with('success', 'Appearance settings updated successfully.');
@@ -171,10 +181,10 @@ class SettingController extends Controller
             'exchange_rate_markup' => 'nullable|numeric|min:0|max:100',
         ]);
 
-        // Store checkbox values as booleans
-        Setting::set('paystack_enabled', $request->has('paystack_enabled'));
-        Setting::set('paystack_test_mode', $request->has('paystack_test_mode'));
-        Setting::set('currency_auto_update', $request->has('currency_auto_update'));
+        // Store checkbox values as "1" or "0" for consistent string storage
+        Setting::set('paystack_enabled', $request->has('paystack_enabled') ? '1' : '0');
+        Setting::set('paystack_test_mode', $request->has('paystack_test_mode') ? '1' : '0');
+        Setting::set('currency_auto_update', $request->has('currency_auto_update') ? '1' : '0');
 
         // Store other values
         Setting::set('paystack_public_key', $validated['paystack_public_key'] ?? '');
