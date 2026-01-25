@@ -206,8 +206,8 @@
             </div>
         </div>
 
-        <div style="margin-top: 30px;">
-            <button type="submit" class="btn btn-primary">
+        <div style="margin-top: 30px; position: relative; z-index: 100;">
+            <button type="submit" class="btn btn-primary" style="pointer-events: auto; cursor: pointer; position: relative; z-index: 101;">
                 <i class="fas fa-save"></i> Save Payment Settings
             </button>
         </div>
@@ -504,5 +504,18 @@
             document.execCommand('copy');
             alert('Callback URL copied!');
         }
+
+        // Debug: Check if form exists and can submit
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.getElementById('payment-settings-form');
+            if (form) {
+                console.log('Form found, action:', form.action);
+                form.addEventListener('submit', function(e) {
+                    console.log('Form is submitting...');
+                });
+            } else {
+                console.error('Form NOT found!');
+            }
+        });
     </script>
 @endsection
