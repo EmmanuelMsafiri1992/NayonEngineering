@@ -176,19 +176,31 @@ class SettingController extends Controller
             'paystack_public_key' => 'nullable|string|max:255',
             'paystack_secret_key' => 'nullable|string|max:255',
             'paystack_test_mode' => 'nullable',
+            'payfast_enabled' => 'nullable',
+            'payfast_merchant_id' => 'nullable|string|max:255',
+            'payfast_merchant_key' => 'nullable|string|max:255',
+            'payfast_passphrase' => 'nullable|string|max:255',
+            'payfast_test_mode' => 'nullable',
             'currency_auto_update' => 'nullable',
             'mzn_exchange_rate' => 'nullable|numeric|min:0.01',
             'exchange_rate_markup' => 'nullable|numeric|min:0|max:100',
         ]);
 
-        // Store checkbox values as "1" or "0" for consistent string storage
+        // Store Paystack settings
         Setting::set('paystack_enabled', $request->has('paystack_enabled') ? '1' : '0');
         Setting::set('paystack_test_mode', $request->has('paystack_test_mode') ? '1' : '0');
-        Setting::set('currency_auto_update', $request->has('currency_auto_update') ? '1' : '0');
-
-        // Store other values
         Setting::set('paystack_public_key', $validated['paystack_public_key'] ?? '');
         Setting::set('paystack_secret_key', $validated['paystack_secret_key'] ?? '');
+
+        // Store PayFast settings
+        Setting::set('payfast_enabled', $request->has('payfast_enabled') ? '1' : '0');
+        Setting::set('payfast_test_mode', $request->has('payfast_test_mode') ? '1' : '0');
+        Setting::set('payfast_merchant_id', $validated['payfast_merchant_id'] ?? '');
+        Setting::set('payfast_merchant_key', $validated['payfast_merchant_key'] ?? '');
+        Setting::set('payfast_passphrase', $validated['payfast_passphrase'] ?? '');
+
+        // Store currency settings
+        Setting::set('currency_auto_update', $request->has('currency_auto_update') ? '1' : '0');
 
         // Only save manual rate if auto-update is disabled
         if (!$request->has('currency_auto_update') && isset($validated['mzn_exchange_rate'])) {

@@ -66,9 +66,16 @@ Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.s
 Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/checkout/failed/{order}', [CheckoutController::class, 'failed'])->name('checkout.failed');
 
+// Paystack Payment Routes
 Route::get('/payment/initiate/{order}', [PaymentController::class, 'initiate'])->name('payment.initiate');
 Route::get('/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
 Route::post('/payment/webhook', [PaymentController::class, 'webhook'])->name('payment.webhook');
+
+// PayFast Payment Routes
+Route::get('/payfast/initiate/{order}', [PaymentController::class, 'initiatePayfast'])->name('payfast.initiate');
+Route::get('/payfast/return', [PaymentController::class, 'payfastReturn'])->name('payfast.return');
+Route::get('/payfast/cancel/{order}', [PaymentController::class, 'payfastCancel'])->name('payfast.cancel');
+Route::post('/payfast/notify', [PaymentController::class, 'payfastNotify'])->name('payfast.notify')->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
 
 // Language Switch
 Route::get('/language/{locale}', [LanguageController::class, 'switch'])->name('language.switch');

@@ -81,6 +81,93 @@
             </div>
         </div>
 
+        <!-- PayFast Settings -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-bolt"></i> PayFast Configuration</h2>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="toggle-label">
+                        <input type="checkbox" name="payfast_enabled" value="1"
+                               {{ !empty($settings['payfast_enabled']) && $settings['payfast_enabled'] != '0' ? 'checked' : '' }}>
+                        <span class="toggle-switch"></span>
+                        <span class="toggle-text">Enable PayFast Payments</span>
+                    </label>
+                    <p class="form-help">When enabled, customers can pay online using PayFast (South Africa's leading payment gateway).</p>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="payfast_merchant_id">Merchant ID</label>
+                        <input type="text" id="payfast_merchant_id" name="payfast_merchant_id" class="form-control"
+                               value="{{ $settings['payfast_merchant_id'] ?? '' }}"
+                               placeholder="10000100">
+                        <p class="form-help">Your PayFast Merchant ID.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="payfast_merchant_key">Merchant Key</label>
+                        <input type="text" id="payfast_merchant_key" name="payfast_merchant_key" class="form-control"
+                               value="{{ $settings['payfast_merchant_key'] ?? '' }}"
+                               placeholder="46f0cd694581a">
+                        <p class="form-help">Your PayFast Merchant Key.</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="payfast_passphrase">Passphrase (Optional)</label>
+                    <input type="password" id="payfast_passphrase" name="payfast_passphrase" class="form-control"
+                           value="{{ $settings['payfast_passphrase'] ?? '' }}"
+                           placeholder="Your secure passphrase">
+                    <p class="form-help">Your PayFast passphrase for extra security. Set this in your PayFast dashboard.</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="toggle-label">
+                        <input type="checkbox" name="payfast_test_mode" value="1"
+                               {{ !isset($settings['payfast_test_mode']) || (!empty($settings['payfast_test_mode']) && $settings['payfast_test_mode'] != '0') ? 'checked' : '' }}>
+                        <span class="toggle-switch"></span>
+                        <span class="toggle-text">Sandbox/Test Mode</span>
+                    </label>
+                    <p class="form-help">Enable sandbox mode for testing. Use sandbox credentials from PayFast.</p>
+                </div>
+
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <strong>Don't have a PayFast account?</strong>
+                        <p>Sign up at <a href="https://payfast.io" target="_blank">payfast.io</a> to get your merchant credentials. PayFast supports credit cards, instant EFT, and more for South African businesses.</p>
+                    </div>
+                </div>
+
+                <div class="info-box" style="margin-top: 15px; background: #fff3cd; border: 1px solid #ffc107;">
+                    <i class="fas fa-exclamation-triangle" style="color: #856404;"></i>
+                    <div>
+                        <strong>Sandbox Test Credentials</strong>
+                        <p style="color: #856404;">
+                            Merchant ID: <code>10000100</code><br>
+                            Merchant Key: <code>46f0cd694581a</code><br>
+                            Passphrase: <code>jt7NOE43FZPn</code>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 20px;">
+                    <label>PayFast ITN (Notify) URL</label>
+                    <div class="copy-field">
+                        <input type="text" readonly value="{{ route('payfast.notify') }}" id="payfast-notify-url">
+                        <button type="button" class="btn btn-sm btn-outline" onclick="copyPayfastNotifyUrl()">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                    <p class="form-help">
+                        Add this URL to your PayFast dashboard under Settings → Integration → Notify URL.
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <!-- Currency Settings -->
         <div class="card">
             <div class="card-header">
@@ -506,6 +593,13 @@
             input.select();
             document.execCommand('copy');
             alert('Callback URL copied!');
+        }
+
+        function copyPayfastNotifyUrl() {
+            const input = document.getElementById('payfast-notify-url');
+            input.select();
+            document.execCommand('copy');
+            alert('PayFast Notify URL copied!');
         }
 
         // Debug: Check if form exists and can submit

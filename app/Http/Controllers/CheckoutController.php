@@ -69,8 +69,11 @@ class CheckoutController extends Controller
         $displayVat = $this->currencyService->convert($vat, $currency);
         $displayTotal = $this->currencyService->convert($total, $currency);
 
+        // Get payment gateway settings
         $paystackEnabled = Setting::get('paystack_enabled', false);
         $paystackPublicKey = Setting::get('paystack_public_key', '');
+        $payfastEnabled = Setting::get('payfast_enabled', false);
+        $payfastMerchantId = Setting::get('payfast_merchant_id', '');
 
         $currencyService = $this->currencyService;
 
@@ -86,6 +89,8 @@ class CheckoutController extends Controller
             'exchangeRate',
             'paystackEnabled',
             'paystackPublicKey',
+            'payfastEnabled',
+            'payfastMerchantId',
             'currencyService'
         ));
     }
@@ -101,6 +106,7 @@ class CheckoutController extends Controller
             'customer_phone' => 'required|string|max:20',
             'customer_address' => 'required|string|max:500',
             'notes' => 'nullable|string|max:1000',
+            'payment_method' => 'nullable|string|in:paystack,payfast,cod',
         ]);
 
         $cart = session('cart', []);
@@ -145,6 +151,9 @@ class CheckoutController extends Controller
         $currency = $this->currencyService->getCurrentCurrency();
         $exchangeRate = $currency === 'MZN' ? $this->currencyService->getExchangeRate() : 1;
 
+        // Determine payment method
+        $paymentMethod = $validated['payment_method'] ?? 'cod';
+
         // Create the order
         $order = Order::create([
             'order_number' => Order::generateOrderNumber(),
@@ -163,21 +172,28 @@ class CheckoutController extends Controller
             'exchange_rate' => $exchangeRate,
             'locale' => app()->getLocale(),
             'payment_status' => 'pending',
-            'payment_method' => 'paystack',
+            'payment_method' => $paymentMethod,
         ]);
 
         // Store order ID in session for payment callback
         session(['pending_order_id' => $order->id]);
 
-        // Check if Paystack is enabled
-        if (!Setting::get('paystack_enabled', false)) {
-            // If Paystack is not enabled, mark as pending and show success
-            session()->forget('cart');
-            return redirect()->route('checkout.success', $order)->with('success', __('messages.order_placed'));
+        // Handle payment based on selected method
+        if ($paymentMethod === 'paystack') {
+            $paystackEnabled = Setting::get('paystack_enabled');
+            if (!empty($paystackEnabled) && $paystackEnabled != '0') {
+                return redirect()->route('payment.initiate', $order);
+            }
+        } elseif ($paymentMethod === 'payfast') {
+            $payfastEnabled = Setting::get('payfast_enabled');
+            if (!empty($payfastEnabled) && $payfastEnabled != '0') {
+                return redirect()->route('payfast.initiate', $order);
+            }
         }
 
-        // Redirect to payment
-        return redirect()->route('payment.initiate', $order);
+        // COD or no payment gateway enabled - show success
+        session()->forget('cart');
+        return redirect()->route('checkout.success', $order)->with('success', __('messages.order_placed'));
     }
 
     /**

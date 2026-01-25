@@ -100,19 +100,52 @@
                         <!-- Payment Method -->
                         <div class="payment-method">
                             <h3>{{ __('messages.payment_method') }}</h3>
-                            @if($paystackEnabled && $paystackPublicKey)
-                                <div class="payment-option">
-                                    <i class="fas fa-credit-card"></i>
-                                    <span>Paystack (Card, Bank Transfer)</span>
+
+                            @php
+                                $paystackAvailable = $paystackEnabled && $paystackPublicKey;
+                                $payfastAvailable = !empty($payfastEnabled) && $payfastEnabled != '0' && !empty($payfastMerchantId);
+                                $hasOnlinePayment = $paystackAvailable || $payfastAvailable;
+                            @endphp
+
+                            @if($hasOnlinePayment)
+                                <div class="payment-options">
+                                    @if($paystackAvailable)
+                                    <label class="payment-option-select {{ !$payfastAvailable ? 'selected' : '' }}">
+                                        <input type="radio" name="payment_method" value="paystack" {{ !$payfastAvailable ? 'checked' : 'checked' }}>
+                                        <div class="payment-option-content">
+                                            <div class="payment-option-header">
+                                                <i class="fas fa-credit-card"></i>
+                                                <span class="payment-name">Paystack</span>
+                                            </div>
+                                            <span class="payment-desc">Card, Bank Transfer, USSD</span>
+                                        </div>
+                                        <span class="payment-check"><i class="fas fa-check-circle"></i></span>
+                                    </label>
+                                    @endif
+
+                                    @if($payfastAvailable)
+                                    <label class="payment-option-select {{ !$paystackAvailable ? 'selected' : '' }}">
+                                        <input type="radio" name="payment_method" value="payfast" {{ !$paystackAvailable ? 'checked' : '' }}>
+                                        <div class="payment-option-content">
+                                            <div class="payment-option-header">
+                                                <i class="fas fa-bolt"></i>
+                                                <span class="payment-name">PayFast</span>
+                                            </div>
+                                            <span class="payment-desc">Credit Card, Instant EFT, Mobicred</span>
+                                        </div>
+                                        <span class="payment-check"><i class="fas fa-check-circle"></i></span>
+                                    </label>
+                                    @endif
                                 </div>
                                 <p class="payment-note">
-                                    {{ __('messages.payment_processing') }}
+                                    <i class="fas fa-shield-alt"></i> {{ __('messages.payment_processing') }}
                                 </p>
                             @else
                                 <div class="payment-option">
                                     <i class="fas fa-money-bill-wave"></i>
                                     <span>Pay on Delivery / Bank Transfer</span>
                                 </div>
+                                <input type="hidden" name="payment_method" value="cod">
                                 <p class="payment-note">
                                     Order now and pay upon delivery or via bank transfer.
                                 </p>
@@ -120,7 +153,7 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary btn-block checkout-btn">
-                            @if($paystackEnabled && $paystackPublicKey)
+                            @if($hasOnlinePayment)
                                 <i class="fas fa-lock"></i> {{ __('messages.pay_now') }}
                             @else
                                 <i class="fas fa-shopping-bag"></i> {{ __('messages.place_order') }}
@@ -336,10 +369,100 @@
     color: #28a745;
 }
 
+/* Payment Method Selection Styles */
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.payment-option-select {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.payment-option-select:hover {
+    border-color: #0079C1;
+    background: #f0f7ff;
+}
+
+.payment-option-select.selected,
+.payment-option-select:has(input:checked) {
+    border-color: #0079C1;
+    background: #e8f4fc;
+}
+
+.payment-option-select input[type="radio"] {
+    display: none;
+}
+
+.payment-option-content {
+    flex: 1;
+}
+
+.payment-option-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 3px;
+}
+
+.payment-option-header i {
+    font-size: 20px;
+    color: #0079C1;
+    width: 24px;
+}
+
+.payment-name {
+    font-weight: 600;
+    color: #333;
+    font-size: 15px;
+}
+
+.payment-desc {
+    font-size: 12px;
+    color: #777;
+    margin-left: 34px;
+}
+
+.payment-check {
+    color: #ddd;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
+.payment-option-select:has(input:checked) .payment-check {
+    color: #0079C1;
+}
+
+.payment-note i {
+    margin-right: 5px;
+}
+
 @media (max-width: 900px) {
     .checkout-grid {
         grid-template-columns: 1fr;
     }
 }
 </style>
+
+<script>
+    // Handle payment method selection styling
+    document.querySelectorAll('.payment-option-select input[type="radio"]').forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            document.querySelectorAll('.payment-option-select').forEach(function(label) {
+                label.classList.remove('selected');
+            });
+            if (this.checked) {
+                this.closest('.payment-option-select').classList.add('selected');
+            }
+        });
+    });
+</script>
 @endsection
