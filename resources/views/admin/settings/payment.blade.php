@@ -206,7 +206,7 @@
             </div>
         </div>
 
-        <div class="form-actions">
+        <div style="margin-top: 30px;">
             <button type="submit" class="btn btn-primary">
                 <i class="fas fa-save"></i> Save Payment Settings
             </button>
@@ -401,10 +401,6 @@
         .copy-field input {
             flex: 1;
             background: #f8f9fa;
-        }
-
-        .form-actions {
-            margin-top: 30px;
         }
 
         @media (max-width: 768px) {
